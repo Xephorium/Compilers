@@ -23,6 +23,7 @@ class Tree {
     private static final String EXTENSION_INORDER = ".inorder";
     private static final String EXTENSION_PREORDER = ".preorder";
     private static final String EXTENSION_POSTORDER = ".postorder";
+    private static final String ERROR_FILE_WRITE = "Error writing to output file. Aborting.";
     private String outputFileName;
     private Node rootNode;
 
@@ -75,7 +76,8 @@ class Tree {
             fileWriter.close();
 
         } catch (IOException exception) {
-            System.out.println(exception.getMessage());
+            System.out.println(ERROR_FILE_WRITE);
+            System.exit(0);
         }
     }
 
