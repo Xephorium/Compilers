@@ -63,14 +63,13 @@ class Node {
         }
     }
 
-    // TODO - FIX
     public String traverseInorder() {
         String output = "";
 
         // Print Order: Left, Root, Right
-        if (left != null) output += left.traversePreorder();
-        output += "\n" + this;
-        if (right != null) output += "\n" + right.traversePreorder();
+        if (left != null) output += left.traverseInorder();
+        output += this + "\n";
+        if (right != null) output += right.traverseInorder();
 
         return output;
     }
@@ -79,9 +78,9 @@ class Node {
         String output = "";
 
         // Print Order: Root, Left, Right
-        output += this;
-        if (left != null) output += "\n" + left.traversePreorder();
-        if (right != null) output += "\n" + right.traversePreorder();
+        output += this + "\n";
+        if (left != null) output += left.traversePreorder();
+        if (right != null) output += right.traversePreorder();
 
         return output;
     }
