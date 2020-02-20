@@ -64,8 +64,8 @@ public class Main {
 
         /*--- Print Outputs ---*/
 
-        //parseTree.printInorder();
-        //parseTree.printPreorder();
+        parseTree.printInorder();
+        parseTree.printPreorder();
         parseTree.printPostorder();
     }
 

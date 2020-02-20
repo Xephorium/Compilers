@@ -1,4 +1,7 @@
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +19,10 @@ class Tree {
 
     /*--- Variable Declarations ---*/
 
+    private static final String OUTPUT_FILE_NAME = "output";
+    private static final String EXTENSION_INORDER = ".inorder";
+    private static final String EXTENSION_PREORDER = ".preorder";
+    private static final String EXTENSION_POSTORDER = ".postorder";
     private Node rootNode;
 
 
@@ -36,18 +43,31 @@ class Tree {
     }
 
     public void printInorder() {
-        System.out.println("\nInorder Traversal");
-        System.out.println(rootNode.traverseInorder());
+        writeToFile(EXTENSION_INORDER, rootNode.traverseInorder());
     }
 
     public void printPreorder() {
-        System.out.println("\nPreorder Traversal");
-        System.out.println(rootNode.traversePreorder());
+        writeToFile(EXTENSION_PREORDER, rootNode.traversePreorder());
     }
 
     public void printPostorder() {
-        System.out.println("\nPostorder Traversal");
-        System.out.println(rootNode.traversePostorder());
+        writeToFile(EXTENSION_POSTORDER, rootNode.traversePostorder());
+    }
+
+
+    /*--- Utility Methods ---*/
+
+    private void writeToFile(String extension, String contents) {
+
+        // Setup Output File
+        try {
+            FileWriter fileWriter = new FileWriter(OUTPUT_FILE_NAME + extension, false);
+            fileWriter.write(contents);
+            fileWriter.close();
+
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
 }

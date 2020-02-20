@@ -6,3 +6,8 @@
 *.idea
 *.iml
 out/
+
+# Project0 Outputs
+*.inorder
+*.preorder
+*.postorder
