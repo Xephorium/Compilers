@@ -63,12 +63,37 @@ class Node {
         }
     }
 
+    // TODO - FIX
+    public String traverseInorder() {
+        String output = "";
+
+        // Print Order: Left, Root, Right
+        if (left != null) output += left.traversePreorder();
+        output += "\n" + this;
+        if (right != null) output += "\n" + right.traversePreorder();
+
+        return output;
+    }
+
     public String traversePreorder() {
         String output = "";
 
+        // Print Order: Root, Left, Right
         output += this;
         if (left != null) output += "\n" + left.traversePreorder();
         if (right != null) output += "\n" + right.traversePreorder();
+
+        return output;
+    }
+
+    // TODO - FIX
+    public String traversePostorder() {
+        String output = "";
+
+        // Print Order: Right, Left, Root
+        if (left != null) output += left.traversePreorder();
+        if (right != null) output += "\n" + right.traversePreorder();
+        output += "\n" + this;
 
         return output;
     }

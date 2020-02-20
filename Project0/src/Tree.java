@@ -37,7 +37,8 @@ class Tree {
     }
 
     public void printInorder() {
-        // TODO - Print Inorder Traversal
+        System.out.println("\nInorder Traversal");
+        System.out.println(rootNode.traverseInorder());
     }
 
     public void printPreorder() {
@@ -46,7 +47,8 @@ class Tree {
     }
 
     public void printPostorder() {
-        // TODO - Print Postorder Traversal
+        System.out.println("\nPostorder Traversal");
+        System.out.println(rootNode.traversePostorder());
     }
 
 }
