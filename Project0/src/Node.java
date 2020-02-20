@@ -61,18 +61,29 @@ class Node {
                 left = new Node(value, depth + 1);
             }
         }
-
-
     }
 
+    public String traversePreorder() {
+        String output = "";
+
+        output += this;
+        if (left != null) output += "\n" + left.traversePreorder();
+        if (right != null) output += "\n" + right.traversePreorder();
+
+        return output;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder(generateIndent() + label + ": ");
+        for (int x = 0; x < values.size(); x++) {
+            builder.append(values.get(x));
+            builder.append(" ");
+        }
+        return builder.toString();
+    }
 
     /*--- Private Methods ---*/
-
-    private void addValue(String value) {
-        if (!values.contains(value)) {
-            values.add(value);
-        }
-    }
 
     private String createLabel(String value) {
         if (value.length() == 0) {
@@ -84,5 +95,19 @@ class Node {
         } else {
             return "" + value.charAt(0);
         }
+    }
+
+    private void addValue(String value) {
+        if (!values.contains(value)) {
+            values.add(value);
+        }
+    }
+
+    private String generateIndent() {
+        StringBuilder builder = new StringBuilder();
+        for (int x = 0; x < depth; x++) {
+            builder.append("  ");
+        }
+        return builder.toString();
     }
 }

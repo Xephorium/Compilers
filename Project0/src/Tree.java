@@ -41,7 +41,8 @@ class Tree {
     }
 
     public void printPreorder() {
-        // TODO - Print Preorder Traversal
+        System.out.println("\nPreorder Traversal");
+        System.out.println(rootNode.traversePreorder());
     }
 
     public void printPostorder() {
