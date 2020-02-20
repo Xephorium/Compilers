@@ -16,7 +16,6 @@ class Tree {
 
     /*--- Variable Declarations ---*/
 
-    private List<String> inputs;
     private Node rootNode;
 
 
@@ -27,7 +26,7 @@ class Tree {
     public void buildTree(String input) {
 
         // Split Input
-        inputs = Arrays.asList(input.split("\\s"));
+        List<String> inputs = Arrays.asList(input.split("\\s"));
 
         // Build Parse Tree
         rootNode = new Node(inputs.get(0), 0);
