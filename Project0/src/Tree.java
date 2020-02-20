@@ -8,12 +8,18 @@
  * construction and traversal logic with utility output methods.
  */
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 class Tree {
 
 
     /*--- Variable Declarations ---*/
 
-    // TODO - Declare Variables
+    private List<String> inputs;
 
 
     /*--- Public Methods ---*/
@@ -22,6 +28,9 @@ class Tree {
     //       and is standalone to meet project requirements.
     public void buildTree(String input) {
 
+        // Split Input
+        inputs = Arrays.asList(input.split("\\s"));
+        
     }
 
     public void printInorder() {

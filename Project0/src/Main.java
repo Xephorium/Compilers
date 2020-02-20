@@ -61,7 +61,6 @@ public class Main {
 
         Tree parseTree = new Tree();
         parseTree.buildTree(input);
-        System.out.println("Input: " + input);
 
 
         /*--- Print Outputs ---*/
