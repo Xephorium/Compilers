@@ -1,4 +1,7 @@
 
+import java.util.Arrays;
+import java.util.List;
+
 /* Chris Cruzen
  * Compilers
  * 02.19.2020
@@ -7,9 +10,6 @@
  * nodes and an arbitrary size. This class encapsulates tree
  * construction and traversal logic with utility output methods.
  */
-
-import java.util.Arrays;
-import java.util.List;
 
 class Tree {
 

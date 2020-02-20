@@ -1,4 +1,7 @@
 
+import java.util.ArrayList;
+import java.util.List;
+
 /* Chris Cruzen
  * Compilers
  * 02.19.2020
@@ -6,9 +9,6 @@
  * Node represents a single bidirectional node in a parse
  * tree of strings.
  */
-
-import java.util.ArrayList;
-import java.util.List;
 
 class Node {
 
@@ -63,10 +63,9 @@ class Node {
         }
     }
 
+    // Returns tree as formatted string, walked: Left, Root, Right
     public String traverseInorder() {
         String output = "";
-
-        // Print Order: Left, Root, Right
         if (left != null) output += left.traverseInorder();
         output += this + "\n";
         if (right != null) output += right.traverseInorder();
@@ -74,10 +73,9 @@ class Node {
         return output;
     }
 
+    // Returns tree as formatted string, walked: Root, Left, Right
     public String traversePreorder() {
         String output = "";
-
-        // Print Order: Root, Left, Right
         output += this + "\n";
         if (left != null) output += left.traversePreorder();
         if (right != null) output += right.traversePreorder();
@@ -85,14 +83,12 @@ class Node {
         return output;
     }
 
-    // TODO - FIX
+    // Returns tree as formatted string, walked: Left, Right, Root
     public String traversePostorder() {
         String output = "";
-
-        // Print Order: Right, Left, Root
-        if (left != null) output += left.traversePreorder();
-        if (right != null) output += "\n" + right.traversePreorder();
-        output += "\n" + this;
+        if (left != null) output += left.traversePostorder();
+        if (right != null) output += right.traversePostorder();
+        output += this + "\n";
 
         return output;
     }
@@ -106,6 +102,7 @@ class Node {
         }
         return builder.toString();
     }
+
 
     /*--- Private Methods ---*/
 

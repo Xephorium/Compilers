@@ -1,4 +1,7 @@
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /* Chris Cruzen
  * Compilers
@@ -10,10 +13,6 @@
  * construction and traversal of a bidirectional parse tree of
  * strings.
  */
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class Main {
 
@@ -66,8 +65,8 @@ public class Main {
         /*--- Print Outputs ---*/
 
         //parseTree.printInorder();
-        parseTree.printPreorder();
-        //parseTree.printPostorder();
+        //parseTree.printPreorder();
+        parseTree.printPostorder();
     }
 
 
