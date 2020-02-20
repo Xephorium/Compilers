@@ -23,6 +23,7 @@ class Tree {
     private static final String EXTENSION_INORDER = ".inorder";
     private static final String EXTENSION_PREORDER = ".preorder";
     private static final String EXTENSION_POSTORDER = ".postorder";
+    private String outputFileName;
     private Node rootNode;
 
 
@@ -39,6 +40,14 @@ class Tree {
         rootNode = new Node(inputs.get(0), 0);
         for (int x = 1; x < inputs.size(); x++) {
             rootNode.sortValue(inputs.get(x));
+        }
+    }
+
+    public void setOutputFileName(String fileName, String inputExtension) {
+        if (fileName == null) {
+            outputFileName = OUTPUT_FILE_NAME;
+        } else {
+            outputFileName = fileName.replaceAll(inputExtension, "");
         }
     }
 
@@ -61,7 +70,7 @@ class Tree {
 
         // Setup Output File
         try {
-            FileWriter fileWriter = new FileWriter(OUTPUT_FILE_NAME + extension, false);
+            FileWriter fileWriter = new FileWriter(outputFileName + extension, false);
             fileWriter.write(contents);
             fileWriter.close();
 

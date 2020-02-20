@@ -32,6 +32,7 @@ public class Main {
 
         /*--- Variable Declarations ---*/
 
+        String inputFileName = null;
         String input = "";
 
 
@@ -41,7 +42,15 @@ public class Main {
             System.out.println(ERROR_EXTRA_ARGUMENTS);
             System.exit(0);
         } else if (args.length == 1) {
-            input = readFile(args[0]);
+
+            // Verify Filename Format
+            inputFileName = args[0];
+            if (!inputFileName.contains(INPUT_FILE_EXTENSION)) {
+                inputFileName = inputFileName + INPUT_FILE_EXTENSION;
+            }
+
+            // Read File
+            input = readFile(inputFileName);
         } else {
             input = readInputStream();
         }
@@ -64,6 +73,7 @@ public class Main {
 
         /*--- Print Outputs ---*/
 
+        parseTree.setOutputFileName(inputFileName, INPUT_FILE_EXTENSION);
         parseTree.printInorder();
         parseTree.printPreorder();
         parseTree.printPostorder();
@@ -73,11 +83,6 @@ public class Main {
     /*----- Utility Methods -----*/
 
     private static String readFile(String filename) {
-
-        // Verify Filename Format
-        if (!filename.contains(INPUT_FILE_EXTENSION)) {
-            filename = filename + INPUT_FILE_EXTENSION;
-        }
 
         try {
 
