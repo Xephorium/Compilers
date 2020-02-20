@@ -20,6 +20,7 @@ class Tree {
     /*--- Variable Declarations ---*/
 
     private List<String> inputs;
+    private Node rootNode;
 
 
     /*--- Public Methods ---*/
@@ -30,7 +31,12 @@ class Tree {
 
         // Split Input
         inputs = Arrays.asList(input.split("\\s"));
-        
+
+        // Build Parse Tree
+        rootNode = new Node(inputs.get(0), 0);
+        for (int x = 1; x < inputs.size(); x++) {
+            rootNode.sortValue(inputs.get(x));
+        }
     }
 
     public void printInorder() {
