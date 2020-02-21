@@ -4,12 +4,12 @@
 :: Clean Project
 call clean.bat
 
-:: Compile Project
+:: Compile Project (Targets Sent to "build" Directory)
 javac -d build src\Main.java src\Tree.java src\Node.java
 
 :: Print Update
 echo Project compiled.
 echo Running project.
 
-:: Run Project in "out" directory
-java -cp build Main
+:: Run Project (Binaries Read from "build" Directory)
+java -cp build Main %*
