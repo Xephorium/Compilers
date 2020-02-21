@@ -3,6 +3,7 @@
 // Compilers Project 0 //
 /////////////////////////
 
+
 Description:
 
 	This program builds a parse tree of bidirectional (binary) nodes from
@@ -24,6 +25,7 @@ Description:
 	.sp2020 is assumed. Input may also be provided via the keyboard as an
 	input stream. The program will continue reading until an End of File char
 	is reached. Compilation and execution are handled by the scripts below.
+
 
 Execution Scripts:
     - To clean project, execute "clean.bat" on Windows or "./clean.sh" on Linux.
