@@ -19,6 +19,7 @@ class Tree {
 
     /*--- Variable Declarations ---*/
 
+    private static final String OUTPUT_FILE_LOCATION = "out\\";
     private static final String OUTPUT_FILE_NAME = "output";
     private static final String EXTENSION_INORDER = ".inorder";
     private static final String EXTENSION_PREORDER = ".preorder";
@@ -71,7 +72,10 @@ class Tree {
 
         // Setup Output File
         try {
-            FileWriter fileWriter = new FileWriter(outputFileName + extension, false);
+            FileWriter fileWriter = new FileWriter(
+                    OUTPUT_FILE_LOCATION + outputFileName + extension,
+                    false
+            );
             fileWriter.write(contents);
             fileWriter.close();
 

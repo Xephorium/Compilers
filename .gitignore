@@ -7,6 +7,9 @@
 *.iml
 out/
 
+# Project Files
+build/
+
 # Project0 Outputs
 *.inorder
 *.preorder
