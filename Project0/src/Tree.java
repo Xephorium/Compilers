@@ -1,5 +1,5 @@
 
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ class Tree {
 
     /*--- Variable Declarations ---*/
 
-    private static final String OUTPUT_FILE_LOCATION = "out\\";
+    private static final String OUTPUT_FILE_LOCATION = "out" + File.separator;
     private static final String OUTPUT_FILE_NAME = "output";
     private static final String EXTENSION_INORDER = ".inorder";
     private static final String EXTENSION_PREORDER = ".preorder";
