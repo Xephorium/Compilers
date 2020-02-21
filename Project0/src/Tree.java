@@ -49,7 +49,7 @@ class Tree {
         if (fileName == null) {
             outputFileName = OUTPUT_FILE_NAME;
         } else {
-            outputFileName = fileName.replaceAll(inputExtension, "");
+            outputFileName = parseFileName(fileName, inputExtension);
         }
     }
 
@@ -67,6 +67,23 @@ class Tree {
 
 
     /*--- Utility Methods ---*/
+
+    private String parseFileName(String filename, String inputExtension) {
+
+        // Remove Extension
+        String newName = filename.replaceAll(inputExtension, "");
+
+        // Remove Leading Directory
+        int lastIndex = 0;
+        if (newName.contains("\\")) {
+            lastIndex = newName.lastIndexOf("\\");
+        } else if (newName.contains("/")) {
+            lastIndex = newName.lastIndexOf("/");
+        }
+        newName = newName.substring(lastIndex + 1, newName.length());
+
+        return newName;
+    }
 
     private void writeToFile(String extension, String contents) {
 

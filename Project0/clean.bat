@@ -1,9 +1,9 @@
 
 @echo off
 
-:: Remove Output & Class Files
-del *.inorder *.preorder *.postorder >nul 2>nul
-del *.class >nul 2>nul
+:: Reset Output Directory
+rmdir out /s /q
+mkdir out
 
 :: Reset Build Directory
 rmdir build /s /q
