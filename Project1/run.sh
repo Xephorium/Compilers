@@ -4,7 +4,7 @@
 ./clean.sh
 
 # Compile Project (Targets Sent to "build" Directory)
-javac -d build src/TestScanner.java
+javac -d build src/TestScanner.java src/Scanner.java src/Token.java
 
 # Print Update
 echo Project compiled.
