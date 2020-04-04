@@ -5,7 +5,7 @@
  *
  * Scanner represents the first step in the process of translating a custom
  * programming language. This class encapsulates the logic of converting raw
- * string input to tokens and returning those tokens to be used by a parser.
+ * scanner input to tokens and returning those tokens to be used by a parser.
  */
 
 
@@ -14,35 +14,23 @@ public class Scanner {
 
     /*--- Variable Declarations ---*/
 
-    private String input;
-    private int index;
+    private Filter filter;
 
 
     /*--- Constructor ---*/
 
-    public Scanner(String input) {
-        this.input = input;
-        this.index = 0;
+    public Scanner(java.util.Scanner inputScanner) {
+        this.filter = new Filter(inputScanner);
     }
 
 
     /*--- Public Methods ---*/
 
     public Token getNextToken() {
-        while (index < input.length() && input.charAt(index) == ' ' && index + 1 < input.length() - 1) {
-            index++;
-        }
+        Word word = filter.getNextWord();
 
-        // Read Next Word
-        String word = "";
-        while (index < input.length() && input.charAt(index) != ' ') {
-            word += input.charAt(index);
-            index++;
-        }
-
-
-        if (!word.equals("")) {
-            return new Token(word);
+        if (word != null) {
+            return new Token(word.toString());
         } else {
             return new Token("");
         }
