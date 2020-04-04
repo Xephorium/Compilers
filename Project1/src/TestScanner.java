@@ -74,7 +74,7 @@ public class TestScanner {
         /*--- Print Tokens ---*/
 
         Token token = scanner.getNextToken();
-        while (!token.toString().equals("{}")) {
+        while (token != null) {
             System.out.println(token);
             token = scanner.getNextToken();
         }
@@ -99,35 +99,11 @@ public class TestScanner {
             System.exit(0);
             return null;
         }
-
-
-//            java.util.Scanner fileScanner = new java.util.Scanner(inputFile);
-//            StringBuilder builder = new StringBuilder();
-//            while (fileScanner.hasNext()) {
-//                builder.append(" ");
-//                builder.append(fileScanner.next());
-//            }
-//            fileScanner.close();
-//
-//            // Return Contents
-//            return builder.toString().trim();
     }
 
     private static java.util.Scanner readInputStream() {
 
         // Return Input Stream
         return new java.util.Scanner(System.in);
-
-//        java.util.Scanner scanner = new java.util.Scanner(System.in);
-//
-//        StringBuilder builder = new StringBuilder();
-//        while (scanner.hasNext()) {
-//            builder.append(" ");
-//            builder.append(scanner.next());
-//        }
-//        scanner.close();
-//
-//        // Return Input
-//        return builder.toString().trim();
     }
 }

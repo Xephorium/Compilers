@@ -29,10 +29,12 @@ public class Scanner {
     public Token getNextToken() {
         Word word = filter.getNextWord();
 
-        if (word != null) {
-            return new Token(word.toString());
+        if (word == null) {
+            return null;
+        } else if (!word.getWord().equals("")) {
+            return new Token(Token.Type.Undefined, word.getWord(), word.getLine());
         } else {
-            return new Token("");
+            return new Token(Token.Type.EndOfFile, word.getWord(), word.getLine());
         }
     }
 

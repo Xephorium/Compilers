@@ -14,20 +14,45 @@ public class Token {
 
     /*--- Variable Declarations ---*/
 
+    enum Type {
+        Undefined,
+        EndOfFile
+    }
+
+    private Type type;
     private String instance;
+    private int line;
 
 
     /*--- Constructor ---*/
 
-    public Token(String instance) {
+    public Token(Type type, String instance, int line) {
+        this.type = type;
         this.instance = instance;
+        this.line = line;
     }
 
 
     /*--- Public Methods ---*/
 
+    public Type getType() {
+        return type;
+    }
+
+    public String getInstance() {
+        return instance;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
     @Override
     public String toString() {
-        return "{" + instance + "}";
+        if (instance.isEmpty()) {
+            return "Token: {" + type + ", " + line + "}";
+        } else {
+            return "Token: {" + type + ", " + instance + ", " + line + "}";
+        }
     }
 }

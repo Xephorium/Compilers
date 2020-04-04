@@ -34,9 +34,4 @@ public class Word {
     public int getLine() {
         return line;
     }
-
-    @Override
-    public String toString() {
-        return word + ", " + line;
-    }
 }

@@ -1,5 +1,4 @@
 
-
 /* Chris Cruzen
  * Compilers
  * 04.04.2020
@@ -9,6 +8,7 @@
  * whitespace and comments, as well as line number tracking.
  */
 
+
 public class Filter {
 
 
@@ -17,6 +17,7 @@ public class Filter {
     private java.util.Scanner inputScanner;
     private int line;
     private boolean readingComment;
+    private boolean endOfFileReached = false;
 
 
     /*--- Constructor ---*/
@@ -32,11 +33,19 @@ public class Filter {
     /*--- Public Methods ---*/
 
     public Word getNextWord() {
+
+        // Short Circuit Stream Read
+        if (endOfFileReached) {
+            return null;
+        }
+
+        // Declare Variables
         String word = null;
         boolean wordStarted = false;
         boolean wordFinished = false;
         boolean iterateLineNumber = false;
 
+        // Read Word
         while (!wordFinished) {
 
             // Read Next Character
@@ -88,9 +97,10 @@ public class Filter {
 
         }
 
-        // No Word Found, Return
+        // End of File Reached, Return Empty Word
         if (word == null) {
-            return null;
+            endOfFileReached = true;
+            return new Word("", line);
         }
 
         // Remove Any Remaining End of Line Characters ('\r' != '\n')
