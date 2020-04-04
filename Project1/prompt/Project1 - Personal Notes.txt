@@ -1,0 +1,18 @@
+
+/////////////////////
+// Project 1 Notes //
+/////////////////////
+
+Requirements:
+  - First line of README.txt
+  - Final Executable: scanner [file]
+  - Structure:
+    File: Scanner      // This is where the scanner lives
+      > Contains FSA Table
+      > Contains Driver Logic
+      > Generates EOF Token when finished reading
+    File: Token        // This is a Token data class
+    File: TestScanner  // This is the test runner of the scanner class
+      > Handles Input
+      > Calls Scaner getToken() after pasing Input
+      > Prints Each Token

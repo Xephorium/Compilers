@@ -1,0 +1,30 @@
+
+1. Create test files:
+	1. P1_test1.sp2020 containing just one character (with standard \n at the end) :
+        X
+    2. P1_test2.sp2020 containing a list of all the tokens listed, all separated by a space or new line. For ids, use X, Xy, and Xyz, for numbers, use 1, 12, and 23.
+        X Xy Xyz 1 12 23
+        //etc
+    3. If WS not required, create another file where some token from above are combined w/o WS (as long as the token combination doesnt create a new token) P1_test3.sp2020 containing a mix of tokens without spaces and with spaces.
+        X  X+ Xy X>=Xyz
+        /etc
+	4. Test also with some extra comments, should not change the outputs
+    5. P1_test4.sp2020 containing
+        x x23
+2. Run the invocations and check against predictions
+    1. $ scanner P1_test
+        Program error file not found
+    2. $ scanner < P1_test1
+        System error file not found
+    3. $ scanner < P1_test1.sp2020
+     	IDTk X 1
+        EOFTk
+    4. $ scanner P1_test1
+        As above
+    5. $ scanner P1_test2
+        Should output all listed tokens, one per line, ending with EOFTk
+    6. $ scanner P1_test3
+        Should output the tokens you have in the file, splitting properly merged tokens
+    7. $ scanner P1_test4
+        SCANNER ERROR: ...
+        Should output the token
