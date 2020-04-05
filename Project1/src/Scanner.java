@@ -70,7 +70,7 @@ public class Scanner {
          *   501-522   Valid Token.
          *
          */
-        //                 W    L    N    =    *    /    +    -    %    <    >    :    ;    .    ,    (    )    {    }    [    ]    O
+        //                  W    L    N    =    *    /    +    -    %    <    >    :    ;    .    ,    (    )    {    }    [    ]    O
         Integer a0[]  = {   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  -1 }; // Initial State
         Integer a1[]  = { 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501 }; // Identifier
         Integer a2[]  = { 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502 }; // Number
@@ -96,7 +96,29 @@ public class Scanner {
         Integer a22[] = { 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522, 522 }; // ]
 
         // Build Final ArrayList
+        fsaTable.add(new ArrayList<>(Arrays.asList(a0)));
         fsaTable.add(new ArrayList<>(Arrays.asList(a1)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a2)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a3)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a4)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a5)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a6)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a7)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a8)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a9)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a10)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a11)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a12)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a13)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a14)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a15)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a16)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a17)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a18)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a19)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a20)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a21)));
+        fsaTable.add(new ArrayList<>(Arrays.asList(a22)));
     }
 
 }
