@@ -59,21 +59,24 @@ public class Scanner {
                     scanComplete = true;
                     return new Token(Token.Type.EndOfFile, "", currentCharacter.getLine());
                 } else {
-                    return new Token(Token.Type.Undefined, tokenInstance + currentCharacter.getCharacter(), currentCharacter.getLine());
+                    nextState = fsaTable.getNextState(state, ' ');
+                    return new Token(Token.Type.fromCode(nextState), tokenInstance + currentCharacter.getCharacter(), currentCharacter.getLine());
                 }
             }
 
             // Get State
             state = fsaTable.getNextState(state, currentCharacter.getCharacter());
-            nextState = fsaTable.getNextState(state, lookAheadCharacter.getCharacter());
 
-            // Check Initial State For Error
+            // Check State For Error
             if (state == -1) {
                 System.out.println("SCANNER ERROR: Invalid character '" + currentCharacter.getCharacter() + "' at line " + currentCharacter.getLine());
                 System.exit(1);
             }
 
-            // Check Next State For Error
+            // Get LookAhead State
+            nextState = fsaTable.getNextState(state, lookAheadCharacter.getCharacter());
+
+            // Check LookAhead State For Error
             if (nextState == -1) {
                 System.out.println("SCANNER ERROR: Invalid character '" + lookAheadCharacter.getCharacter() + "' at line " + lookAheadCharacter.getLine());
                 System.exit(1);
@@ -84,10 +87,11 @@ public class Scanner {
 
             filter.iterate();
 
-            // Check for Token End
+            // Return Completed Token
             if (nextState > 500) {
+
                 // Token Complete. Return.
-                return new Token(Token.Type.Undefined, tokenInstance, currentCharacter.getLine());
+                return new Token(Token.Type.fromCode(nextState), tokenInstance, currentCharacter.getLine());
             }
         }
     }

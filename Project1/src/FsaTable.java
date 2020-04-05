@@ -85,7 +85,7 @@ public class FsaTable {
          * Codes
          *   -1        Invalid character. Halt parsing.
          *   0-20      Valid next state. Go to row.
-         *   501-522   Valid Token.
+         *   501-522   Valid Token. Integers defined in Token.Type enum.
          *
          */
         //                  W    L    N    =    *    /    +    -    %    <    >    :    ;    .    ,    (    )    {    }    [    ]    O

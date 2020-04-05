@@ -15,8 +15,43 @@ public class Token {
     /*--- Variable Declarations ---*/
 
     enum Type {
-        Undefined,
-        EndOfFile
+        Undefined(500),
+        Identifier(501),
+        Number(502),
+        Assignment(503),
+        Equality(504),
+        Multiplication(505),
+        Division(506),
+        Addition(507),
+        Subtraction(508),
+        Modulus(509),
+        Less(510),
+        Greater(511),
+        Colon(512),
+        SassyColon(513),
+        Semicolon(514),
+        Period(515),
+        Comma(516),
+        OpenParenthesis(517),
+        CloseParenthesis(518),
+        OpenBrace(519),
+        CloseBrace(520),
+        OpenBracket(521),
+        CloseBracket(522),
+        EndOfFile(523);
+
+        private int code;
+
+        Type(int code) {
+            this.code = code;
+        }
+
+        public static Type fromCode(int code) {
+            for (int x = 1; x < Type.values().length; x++) {
+                if (Type.values()[x].code == code) return Type.values()[x];
+            }
+            return Type.values()[0];
+        }
     }
 
     private Type type;
@@ -49,10 +84,6 @@ public class Token {
 
     @Override
     public String toString() {
-        if (instance.isEmpty()) {
-            return "Token: {" + type + ", " + line + "}";
-        } else {
-            return "Token: {" + type + ", " + instance + ", " + line + "}";
-        }
+        return "Token: {" + type + ", " + instance + ", " + line + "}";
     }
 }
