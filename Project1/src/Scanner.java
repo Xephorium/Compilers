@@ -35,15 +35,19 @@ public class Scanner {
 
     // Returns the next available token, or null if no further tokens are available.
     public Token getNextToken() {
-        Word word = filter.getNextWord();
+        FilteredCharacter current = filter.getCurrentCharacter();
+        FilteredCharacter next = filter.getLookAheadCharacter();
+        filter.iterate();
 
-        if (word == null) {
+
+        if (current == null) {
             return null;
-        } else if (!word.getWord().equals("")) {
-            return new Token(Token.Type.Undefined, word.getWord(), word.getLine());
+        } else if (next == null) {
+            return new Token(Token.Type.Undefined, current.getCharacter() + ": null", current.getLine());
         } else {
-            return new Token(Token.Type.EndOfFile, word.getWord(), word.getLine());
+            return new Token(Token.Type.Undefined, current.getCharacter() + ": " + next.getCharacter(), current.getLine());
         }
+
     }
 
 
@@ -70,7 +74,7 @@ public class Scanner {
          *
          */
         //                 W    L    N    =    *    /    +    -    <    >     :    ;    .    ,    (    )    {    }    [    ]    O
-        Integer a1[] = {   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,   10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20 };
+        Integer a1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 
         // Build Final ArrayList
         fsaTable.add(new ArrayList<>(Arrays.asList(a1)));

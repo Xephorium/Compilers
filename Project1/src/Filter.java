@@ -17,7 +17,10 @@ public class Filter {
     private java.util.Scanner inputScanner;
     private int line;
     private boolean readingComment;
+    private boolean readingWindowsNewline;
     private boolean endOfFileReached = false;
+    private FilteredCharacter currentCharacter;
+    private FilteredCharacter lookAheadCharacter;
 
 
     /*--- Constructor ---*/
@@ -26,105 +29,93 @@ public class Filter {
         this.inputScanner = inputScanner;
         this.inputScanner.useDelimiter("");
         this.line = 0;
-        readingComment = false;
+        this.readingComment = false;
+        this.readingWindowsNewline = false;
+
+        lookAheadCharacter = getNextValidCharacter();
+        iterate();
     }
 
 
     /*--- Public Methods ---*/
 
-    // Returns next available valid word, or null if no further words are available.
-    public Word getNextWord() {
+    public FilteredCharacter getCurrentCharacter() {
+        return currentCharacter;
+    }
+
+    public FilteredCharacter getLookAheadCharacter() {
+        return lookAheadCharacter;
+    }
+
+    public void iterate() {
+        currentCharacter = lookAheadCharacter;
+        lookAheadCharacter = getNextValidCharacter();
+    }
+
+
+    /*--- Private Methods ---*/
+
+    private FilteredCharacter getNextValidCharacter() {
 
         // Short Circuit Stream Read
         if (endOfFileReached) {
             return null;
         }
 
-        // Declare Variables
-        String word = null;
-        boolean wordStarted = false;
-        boolean wordFinished = false;
-        boolean iterateLineNumber = false;
-
-        // Read Word
-        while (!wordFinished) {
-
-            // Read Next Character
+        // Read Next Valid Character
+        FilteredCharacter character;
+        boolean validCharacter;
+        do {
+            validCharacter = true;
             if (inputScanner.hasNext()) {
-                char character = inputScanner.next().charAt(0);
+                character = new FilteredCharacter(inputScanner.next().charAt(0), line);
 
-                switch (character) {
-
-                    // Parse Whitespace
-                    case ' ':
-                        if (wordStarted) {
-                            wordFinished = true;
-                        }
-                        break;
-
-                    // Parse Newline
-                    case '\n':
-                        if (wordStarted) {
-                            wordFinished = true;
-                            iterateLineNumber = true;
-                        } else {
-                            line++;
-                        }
-                        break;
-
-                    // Parse Comment
-                    case '#':
-                        if (wordStarted) {
-                            wordFinished = true;
-                        }
-                        readingComment = !readingComment;
-                        break;
-
-                    // Parse Everything Else
-                    default:
-                        if (!readingComment) {
-                            if (word == null) word = "";
-                            word += character;
-                            if (!wordStarted) wordStarted = true;
-                        }
+                // Nonstandard Newline
+                if ((character.getCharacter() + "").matches("\\r")) {
+                    readingWindowsNewline = true;
+                    character.setCharacter(' ');
+                    character.setLine(line);
+                    line++;
                 }
 
+                // Standard Newline
+                if ((character.getCharacter() + "").matches("\\n") && !readingWindowsNewline) {
+                    character.setCharacter(' ');
+                    character.setLine(line);
+                    line++;
+                }
+
+                // Windows Newline
+                if ((character.getCharacter() + "").matches("\\n") && readingWindowsNewline) {
+                    validCharacter = false;
+                }
+
+                // Consecutive Whitespace
+                if ((character.getCharacter() + "").matches("\\s")
+                        && (lookAheadCharacter.getCharacter() + "").matches("\\s")) {
+                    validCharacter = false;
+                }
+
+                // Comment
+                if ((character.getCharacter() + "").matches("#")) {
+                    readingWindowsNewline = false;
+                    readingComment = !readingComment;
+                    validCharacter = false;
+                }
+
+                // Otherwise
+                if (readingComment) {
+                    validCharacter = false;
+                }
 
             } else {
-
-                // No More Input, Word Complete
-                wordFinished = true;
+                endOfFileReached = true;
+                character = null;
             }
 
-        }
+        } while (!validCharacter);
 
-        // End of File Reached, Return Empty Word
-        if (word == null) {
-            endOfFileReached = true;
-            return new Word("", line);
-        }
-
-        // Remove Any Remaining End of Line Characters ('\r' != '\n')
-        word = word.trim();
-
-        // Create Word
-        Word finalWord = new Word(word.trim(), line);
-
-        // Conditionally Iterate Line Number
-        if (iterateLineNumber) {
-            line++;
-        }
-
-        if (word.isEmpty()) {
-
-            // Empty Word Found; Find Next
-            return getNextWord();
-
-        } else {
-
-            // Valid Word Found; Return
-            return finalWord;
-        }
+        return character;
     }
 
 }
