@@ -31,7 +31,7 @@ public class TestScanner {
 
         /*--- Variable Declarations ---*/
 
-        String inputFileName = null;
+        String inputFileName;
         java.util.Scanner inputScanner = new java.util.Scanner(System.in);
 
 

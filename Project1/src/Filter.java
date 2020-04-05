@@ -32,6 +32,7 @@ public class Filter {
 
     /*--- Public Methods ---*/
 
+    // Returns next available valid word, or null if no further words are available.
     public Word getNextWord() {
 
         // Short Circuit Stream Read
