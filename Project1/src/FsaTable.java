@@ -7,6 +7,29 @@ public class FsaTable {
     /*--- Variable Declarations ---*/
 
     private ArrayList<ArrayList<Integer>> fsaTable;
+    private String[] fsaCharacterRegexList = {
+            "\\s",              // Whitespace
+            "[a-zA-Z]",         // Letter
+            "\\d",              // Number
+            "=",
+            "\\*",
+            "/",
+            "\\+",
+            "-",
+            "%",
+            "<",
+            ">",
+            ":",
+            ";",
+            "\\.",
+            ",",
+            "\\(",
+            "\\)",
+            "\\{",
+            "}",
+            "\\[",
+            "]"
+    };
 
 
 
@@ -21,11 +44,29 @@ public class FsaTable {
     /*--- Public Methods ---*/
 
     public int getNextState(int currentState, char character) {
-        return 0;
+        return fsaTable.get(currentState).get(getCharacterIndex(character));
     }
 
 
     /*--- Private Methods ---*/
+
+    private int getCharacterIndex(char character) {
+        int index = -1;
+
+        // Check for Match
+        for (int x = 0; x < fsaCharacterRegexList.length; x++) {
+            if ((character + "").matches(fsaCharacterRegexList[x])) {
+                index = x;
+            }
+        }
+
+        // No Match
+        if (index == -1) {
+            index = fsaCharacterRegexList.length;
+        }
+
+        return index;
+    }
 
     private void setupFsaTable() {
 
