@@ -10,7 +10,7 @@ but it uses most valid characters in the alphabet.
 in var = 123;
 out val := abc;
 
-if (var < val) {
+if (var < val) { # hidden comment te he he #
     return dog * cat[] - (900);
 } else if (val == var) {
     data loop goto %
