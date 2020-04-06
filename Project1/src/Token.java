@@ -5,7 +5,9 @@
  *
  * Token represents a discreet grammatical unit of our fictional
  * programing language. This class is a triple representing
- * tokenType, tokenInstance, and lineNumber.
+ * tokenType, tokenInstance, and lineNumber. The Type enum contains
+ * utility methods for initialization from FSA Table code and keyword
+ * identification.
  */
 
 
@@ -13,6 +15,50 @@ public class Token {
 
 
     /*--- Variable Declarations ---*/
+
+    private Type type;
+    private String instance;
+    private int line;
+
+
+    /*--- Constructor ---*/
+
+    public Token(Type type, String instance, int line) {
+
+        // Check Identifier For Keyword
+        if (type == Type.Identifier) {
+            this.type = Type.fromIdentifier(instance);
+        } else {
+            this.type = type;
+        }
+
+        // Set Instance and Line
+        this.instance = instance;
+        this.line = line;
+    }
+
+
+    /*--- Public Methods ---*/
+
+    public Type getType() {
+        return type;
+    }
+
+    public String getInstance() {
+        return instance;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    @Override
+    public String toString() {
+        return "Token: {" + type + ", " + instance + ", " + line + "}";
+    }
+
+
+    /*--- Type Enum ---*/
 
     enum Type {
         Undefined(500),
@@ -38,7 +84,20 @@ public class Token {
         CloseBrace(520),
         OpenBracket(521),
         CloseBracket(522),
-        EndOfFile(523);
+        EndOfFile(523),
+        Label(524),
+        Goto(525),
+        Loop(526),
+        Void(527),
+        Declare(528),
+        Return(529),
+        In(530),
+        Out(531),
+        Program(532),
+        Iffy(533),
+        Then(534),
+        Assign(535),
+        Data(536);
 
         private int code;
 
@@ -52,38 +111,39 @@ public class Token {
             }
             return Type.values()[0];
         }
-    }
 
-    private Type type;
-    private String instance;
-    private int line;
+        public static Type fromIdentifier(String identifier) {
+            switch (identifier) {
+                case "label":
+                    return Type.Label;
+                case "goto":
+                    return Type.Goto;
+                case "loop":
+                    return Type.Loop;
+                case "void":
+                    return Type.Void;
+                case "declare":
+                    return Type.Declare;
+                case "return":
+                    return Type.Return;
+                case "in":
+                    return Type.In;
+                case "out":
+                    return Type.Out;
+                case "program":
+                    return Type.Program;
+                case "iffy":
+                    return Type.Iffy;
+                case "then":
+                    return Type.Then;
+                case "assign":
+                    return Type.Assign;
+                case "data":
+                    return Type.Data;
+                default:
+                    return Type.Identifier;
 
-
-    /*--- Constructor ---*/
-
-    public Token(Type type, String instance, int line) {
-        this.type = type;
-        this.instance = instance;
-        this.line = line;
-    }
-
-
-    /*--- Public Methods ---*/
-
-    public Type getType() {
-        return type;
-    }
-
-    public String getInstance() {
-        return instance;
-    }
-
-    public int getLine() {
-        return line;
-    }
-
-    @Override
-    public String toString() {
-        return "Token: {" + type + ", " + instance + ", " + line + "}";
+            }
+        }
     }
 }

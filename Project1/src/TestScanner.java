@@ -59,7 +59,7 @@ public class TestScanner {
 
         /*--- Validate Input ---*/
 
-        if (!inputScanner.hasNext()) {
+        if (inputScanner != null && !inputScanner.hasNext()) {
             System.out.println(ERROR_EMPTY_INPUT);
             System.exit(0);
 
