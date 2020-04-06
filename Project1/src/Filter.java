@@ -92,6 +92,7 @@ public class Filter {
 
                 // Consecutive Whitespace
                 if ((character.getCharacter() + "").matches("\\s")
+                        && lookAheadCharacter != null
                         && (lookAheadCharacter.getCharacter() + "").matches("\\s")) {
                     validCharacter = false;
                 }

@@ -54,7 +54,7 @@ public class Token {
 
     @Override
     public String toString() {
-        return "Token: {" + type + ", " + instance + ", " + line + "}";
+        return "{" + type + ", " + instance + ", " + line + "}";
     }
 
 
@@ -70,16 +70,16 @@ public class Token {
         Division(506),
         Addition(507),
         Subtraction(508),
-        Modulus(509),
-        Less(510),
-        Greater(511),
+        Modulo(509),
+        LessThan(510),
+        GreaterThan(511),
         Colon(512),
         SassyColon(513),
         Semicolon(514),
         Period(515),
         Comma(516),
-        OpenParenthesis(517),
-        CloseParenthesis(518),
+        OpenParen(517),
+        CloseParen(518),
         OpenBrace(519),
         CloseBrace(520),
         OpenBracket(521),

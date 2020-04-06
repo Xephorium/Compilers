@@ -1,10 +1,17 @@
-george adam. ala, 12 ada 125 john haus geode
-timmy john {phil}
-return data iffy
-x+y=z73#666#;
-dog:=fish/(cat)[7]==9
-# this is a comm
-
-#duck         #ent, yo!
 #
-tes*ting
+Fake Program
+04.05.2020
+
+This fake program tests that the scanner is correctly building
+tokens from a provided input file. Its syntax is utter nonsense,
+but it uses most valid characters in the alphabet.
+#
+
+in var = 123;
+out val := abc;
+
+if (var < val) {
+    return dog * cat[] - (900);
+} else if (val == var) {
+    data loop goto %
+}

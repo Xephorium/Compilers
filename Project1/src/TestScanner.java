@@ -73,9 +73,10 @@ public class TestScanner {
 
         /*--- Print Tokens ---*/
 
+        System.out.println("Token List: ({id, instance, line})");
         Token token = scanner.getNextToken();
         while (token != null) {
-            System.out.println(token);
+            System.out.println("\t" + token);
             token = scanner.getNextToken();
         }
 
