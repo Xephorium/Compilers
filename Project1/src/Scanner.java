@@ -83,7 +83,7 @@ public class Scanner {
             }
 
             // Update Token Instance
-            tokenInstance += currentCharacter.getCharacter();
+            if (currentCharacter.getCharacter() != ' ') tokenInstance += currentCharacter.getCharacter();
 
             filter.iterate();
 
