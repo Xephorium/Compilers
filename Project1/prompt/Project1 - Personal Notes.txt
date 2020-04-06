@@ -28,6 +28,8 @@ New Filter
     getLookaheadCharacter()
     iterate()
 
+Remaining:
+- Keywords
 
 a=x
 
