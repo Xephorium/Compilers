@@ -4,8 +4,9 @@
  * 04.04.2020
  *
  * Scanner represents the first step in the process of translating a custom
- * programming language. This class encapsulates the logic of converting raw
- * scanner input to tokens and returning those tokens to be used by a parser.
+ * programming language. This class encapsulates the FSA Table lookup logic
+ * responsible for converting raw stream input to tokens. Token identification
+ * is performed with only a single character lookahead.
  */
 
 
@@ -24,14 +25,14 @@ public class Scanner {
     public Scanner(java.util.Scanner inputScanner) {
         this.fsaTable = new FsaTable();
         this.filter = new Filter(inputScanner);
-
-
     }
 
 
     /*--- Public Methods ---*/
 
-    // Returns the next available token, or null if no further tokens are available.
+    /* Returns the next available token until stream is empty, after which
+     * a single EndOfFile Token is returned. Further calls will produce null.
+     */
     public Token getNextToken() {
 
         // Short Circuit when Complete
@@ -39,17 +40,17 @@ public class Scanner {
             return null;
         }
 
-        // Create Variables
+        // Declare Variables
         String tokenInstance = "";
         FilteredCharacter currentCharacter;
         FilteredCharacter lookAheadCharacter;
         int state = 0;
         int nextState = 0;
 
-        // Begin Assembly Loop
+        // Begin Token Assembly
         while (true) {
 
-            // Get Characters
+            // Read Characters
             currentCharacter = filter.getCurrentCharacter();
             lookAheadCharacter = filter.getLookAheadCharacter();
 
@@ -64,10 +65,10 @@ public class Scanner {
                 }
             }
 
-            // Get State
+            // Get Current State
             state = fsaTable.getNextState(state, currentCharacter.getCharacter());
 
-            // Check State For Error
+            // Check Current State For Error
             if (state == -1) {
                 System.out.println("SCANNER ERROR: Invalid character '" + currentCharacter.getCharacter() + "' at line " + currentCharacter.getLine());
                 System.exit(1);
@@ -85,7 +86,8 @@ public class Scanner {
             // Update Token Instance
             if (currentCharacter.getCharacter() != ' ') tokenInstance += currentCharacter.getCharacter();
 
-            filter.iterate();
+            // Advance Stream Character
+            filter.advanceCharacter();
 
             // Return Completed Token
             if (nextState > 500) {

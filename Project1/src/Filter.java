@@ -33,7 +33,7 @@ public class Filter {
         this.readingWindowsNewline = false;
 
         lookAheadCharacter = getNextValidCharacter();
-        iterate();
+        advanceCharacter();
     }
 
 
@@ -47,7 +47,7 @@ public class Filter {
         return lookAheadCharacter;
     }
 
-    public void iterate() {
+    public void advanceCharacter() {
         currentCharacter = lookAheadCharacter;
         lookAheadCharacter = getNextValidCharacter();
     }
