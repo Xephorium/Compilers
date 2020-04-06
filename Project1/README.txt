@@ -1,7 +1,15 @@
+Method Used: #3 - FSA Table & Driver. Details below.
 
 /////////////////////////
 // Compilers Project 1 //
 /////////////////////////
+
+
+Architecture:
+    - This program implements option #3 of the assignment prompt, using an FSA table
+      and driver to recognize valid tokens.
+    - FSA Table Location: FsaTable.java
+    - Driver Method: getNextToken() method of Scanner.java
 
 
 Execution Scripts:
@@ -21,5 +29,5 @@ Execution Scripts:
                 ./run.sh < test/input.sp2020
 
 
-Other Notes:
+Build Notes:
     - Project build (.class) files are created in the "build" directory.
