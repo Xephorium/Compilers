@@ -1,0 +1,160 @@
+
+
+
+/*--- Project 2 Notes ---*/
+
+General 
+- 100pts
+- Basics: We build parser and parse tree.
+- Structure
+  > Parser.java will contain parser
+    + Generates error or returns parse tree to main
+  > TestTree.java will print a preorder traversal of the tree passed to it
+- Productions chosen based on first sets. If no first set match, error. 
+
+The BNF (Our Grammar)
+- Program: starting production
+- Vars: declare token, identifier token, :=, integer, semicolon
+- RO: Relational Operators
+- Start simple! Build up one production at a time. 
+
+
+
+/*--- Grammar Pseudocode ---*/
+
+<program>    -> <variables> <block>
+<block>      -> { <variables> <statements> }
+<variables>  -> empty | declare Identifier := Integer; <variables>
+<expression> -> <N> - <expression> | <N>
+<N>          -> <A> / <N> | <A> * <N> | <A>
+<A>          -> <M> + <A> | <M>
+<M>          -> * <M> | <R>
+<R>          -> ( <expression> ) | Identifier | Integer
+<statements> -> <statment> <mStatement>
+<mStatement> -> empty | <statement> <mStatement>
+<statement>  -> <in>; | <out>; | <block> | <if>; | <loop>; | <assign>; | <goto>; | <label>;
+<in>         -> in Identifier
+<out>        -> out <expression>
+<if>         -> iffy [ <expression> <relational> <expression> ] then <statement>
+<loop>       -> loop [ <expression> <relational> <expression> ] <statement>
+<assign>     -> Identifier := <expression>
+<label>      -> label Identifier
+<goto>       -> goto Identifier
+<relational> -> < | << (two tokens >) | > | >> (two tokens) | == (one token ==) | <> (two tokens)
+
+
+
+/*--- First Sets (Function Switch Cases) ---*/
+
+// I think I've got the hang of this. Gonna start coding.
+
+in() {
+	if (current in) {
+		Consume in token.
+	} else {
+		"Error (line): Expected in statement, found <token>." Exit.
+	}
+
+	if (current identifier) {
+		Consume idendifier token.
+	} else {
+		"Error (line): Expected identifier token, found <token>." Exit.
+	}
+}
+
+out() {
+	if (current out) {
+		Consume out token.
+		Call expression();
+		Return.
+	} else {
+		"Error (line): Expected out statement, found <token>." Exit.
+	}
+}
+
+if() {
+	if (current iffy) {
+		Consume iffy token.
+	} else {
+		"Error (line): Expected iffy statement, found <token>." Exit.
+	}
+
+	if (current [) {
+		Consume [ token.
+		Call expression().
+		Call relational().
+		Call expression().
+	} else {
+		"Error (line): Expected [ token, found <token>." Exit.
+	}
+
+	if (current ]) {
+		Consume ] token.
+	} else {
+		"Error (line): Expected ] token, found <token>." Exit.
+	}
+
+	if (current then) {
+		Consume then.
+		Call statement().
+		Return.
+	} else {
+		"Error (line): Expected then token, found <token>." Exit.
+	}
+}
+
+loop() {
+	if (current loop) {
+		Consume loop token.
+	} else {
+		"Error (line): Expected loop statement, found <token>." Exit.
+	}
+
+	if (current [) {
+		Consume [ token.
+		Call expression().
+		Call relational().
+		Call expression().
+	} else {
+		"Error (line): Expected [ token, found <token>." Exit.
+	}
+
+	if (current ]) {
+		Consume ] token.
+	} else {
+		"Error (line): Expected ] token, found <token>." Exit.
+	}
+
+	Call statement().
+	Return.
+}
+
+assign() {
+	Call identifier().
+	switch // TODO - Make If/Else
+		current ':=': Consume sassyColon token. Call expression(). Return.
+		default: "Error (line): Expected sassyColon statement, found <token>." Exit.
+}
+
+label() {
+	switch // TODO - Make If/Else
+		current label: Consume label token. Call identifier(). Return.
+		default: "Error (line): Expected label statement, found <token>." Exit.
+}
+
+goto() {
+	switch // TODO - Make If/Else
+		current goto: Consume goto token. Call identifier(). Return.
+		default: "Error (line): Expected goto statement, found <token>." Exit.
+}
+
+relational() {
+	switch
+		current <, lookahead <: Valid. Consume both. Return.
+		current <, lookahead >: Valid. Consume both. Return.
+		current <: Valid. Consume one. Return.
+		current >, lookahead >: Valid. Consume both. Return.
+		current >: Valid. Consume one. Return.
+		current ==: Valid, Consume equality token. Return.
+		default: "Error (line): Expected relational operator, found <token>." Exit.
+}
