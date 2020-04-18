@@ -39,7 +39,7 @@ public class Parser {
     }
 
 
-    /*--- Private Methods ---*/
+    /*--- Private Recursive Descent Methods ---*/
 
     private void program() {
         variables();
@@ -71,13 +71,92 @@ public class Parser {
         return;
     }
 
+    private void expression() {
+        n();
+
+        if (currentToken.getType() == Type.Subtraction) {
+            consumeToken();
+            expression();
+            return;
+        } else {
+            // Standalone n - Do Nothing
+            return;
+        }
+    }
+
+    private void n() {
+        a();
+
+        if (currentToken.getType() == Type.Division) {
+            consumeToken();
+            n();
+            return;
+        } else if (currentToken.getType() == Type.Multiplication) {
+            consumeToken();
+            n();
+            return;
+        } else {
+            // Standalone a - Do Nothing
+            return;
+        }
+    }
+
+    private void a() {
+        m();
+
+        if (currentToken.getType() == Type.Addition) {
+            consumeToken();
+            a();
+            return;
+        } else {
+            // Standalone m - Do Nothing
+            return;
+        }
+    }
+
+    private void m() {
+        if (currentToken.getType() == Type.Multiplication) {
+            consumeToken();
+            m();
+            return;
+        } else {
+            r();
+            return;
+        }
+    }
+
+    private void r() {
+        if (currentToken.getType() == Type.OpenParen) {
+            consumeToken();
+            expression();
+            checkForToken(Type.CloseParen);
+            return;
+
+        } else if (currentToken.getType() == Type.Identifier) {
+            consumeToken();
+            return;
+
+        } else if (currentToken.getType() == Type.Number) {
+            consumeToken();
+            return;
+
+        } else {
+            error(Type.OpenParen.toString() + " or "
+                    + Type.Identifier.toString() + " or "
+                    + Type.Number);
+        }
+    }
+
+
+    /*--- Private Utility Methods ---*/
+
     private Token checkForToken(Type type) {
         if (currentToken.getType() == type) {
             Token tempToken = currentToken;
             consumeToken();
             return tempToken;
         } else {
-            error(type);
+            error(type.toString());
             return null; // Unreachable
         }
     }
@@ -87,8 +166,8 @@ public class Parser {
         currentToken = scanner.getNextToken();
     }
 
-    private void error(Token.Type expected) {
-        System.out.println("Error (" + currentToken.getLine() + "): Expected " + expected + " token, found \'"
+    private void error(String expected) {
+        System.out.println("Error (" + currentToken.getLine() + "): Expected " + expected + ", found \'"
                 + currentToken.getInstance() + "\'."
         );
         System.exit(1);

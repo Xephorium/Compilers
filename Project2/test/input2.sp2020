@@ -6,11 +6,9 @@ This is a test program used to determine whether the parser is correctly
 building a parse tree from scanned tokens.
 #
 
-declare var123 := 7;
 declare var456 := 117;
 
 {
     declare var789 := 264;
-
 
 }
