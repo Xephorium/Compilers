@@ -149,12 +149,31 @@ goto() {
 }
 
 relational() {
-	switch
-		current <, lookahead <: Valid. Consume both. Return.
-		current <, lookahead >: Valid. Consume both. Return.
-		current <: Valid. Consume one. Return.
-		current >, lookahead >: Valid. Consume both. Return.
-		current >: Valid. Consume one. Return.
-		current ==: Valid, Consume equality token. Return.
-		default: "Error (line): Expected relational operator, found <token>." Exit.
+	if (current <) {
+		Consume < token.
+		if (current <) {
+			Consume < token.
+			Return.
+		} else if (current >) {
+			Consume > token.
+			Return.
+		} else {
+			Return.
+		}
+
+	} else if (current >) {
+		Consume > token.
+		if (current >) {
+			Consume > token.
+			Return.
+		} else {
+			Return.
+
+	} else if (current ==) {
+		Consume == token.
+		Return.
+
+	} else {
+		"Error (line): Expected relational operator, found <token>." Exit.
+	}
 }

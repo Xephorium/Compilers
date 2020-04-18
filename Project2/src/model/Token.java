@@ -1,4 +1,4 @@
-
+package model;
 /* Chris Cruzen
  * Compilers
  * 04.04.2020
@@ -60,7 +60,7 @@ public class Token {
 
     /*--- Type Enum ---*/
 
-    enum Type {
+    public enum Type {
         Undefined(500),
         Identifier(501),
         Number(502),

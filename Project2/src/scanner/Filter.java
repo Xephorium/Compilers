@@ -1,4 +1,4 @@
-
+package scanner;
 /* Chris Cruzen
  * Compilers
  * 04.04.2020
@@ -8,6 +8,8 @@
  * whitespace and comments, as well as line number tracking.
  */
 
+
+import model.FilteredCharacter;
 
 public class Filter {
 

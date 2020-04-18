@@ -1,4 +1,4 @@
-
+package model;
 /* Chris Cruzen
  * Compilers
  * 04.05.2020

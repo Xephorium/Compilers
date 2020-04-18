@@ -1,3 +1,7 @@
+package scanner;
+
+import model.FilteredCharacter;
+import model.Token;
 
 /* Chris Cruzen
  * Compilers
