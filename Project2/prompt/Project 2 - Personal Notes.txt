@@ -20,7 +20,7 @@ The BNF (Our Grammar)
 
 
 
-/*--- Grammar Pseudocode ---*/
+/*--- Grammar Rewritten ---*/
 
 <program>    -> <variables> <block>
 <block>      -> { <variables> <statements> }
@@ -44,9 +44,68 @@ The BNF (Our Grammar)
 
 
 
-/*--- First Sets (Function Switch Cases) ---*/
+/*--- Recursive Descent Pseudocode ---*/
 
-// I think I've got the hang of this. Gonna start coding.
+
+program() {
+	Call variables().
+	Call block().
+	Return.
+}
+
+block() {
+	if (current {) {
+		Consume { token.
+		Call variables().
+		Call statements().
+	} else {
+		"Error (line): Expected { token, found <token>." Exit.
+	}
+
+	if (current }) {
+		Consume } token.
+		Return.
+	} else {
+		"Error (line): Expected } token, found <token>." Exit.
+	}
+}
+
+variables() {
+	if (current declare) {
+		Consume declare token.
+	} else {
+		// No More Variables - Do Nothing
+		Return.
+	}
+
+	if (current identifier) {
+		Consume identifier token.
+	} else {
+		"Error (line): Expected identifier token, found <token>." Exit.
+	}
+
+	if (current :=) {
+		Consume sassyColon token.
+	} else {
+		"Error (line): Expected sassyColon token, found <token>." Exit.
+	}
+
+	if (current integer) {
+		Consume integer token.
+	} else {
+		"Error (line): Expected integer token, found <token>." Exit.
+	}
+
+	if (current ;) {
+		Consume ; token.
+	} else {
+		"Error (line): Expected ; token, found <token>." Exit.
+	}
+
+	Call variables().
+}
+
+...
 
 in() {
 	if (current in) {
@@ -131,21 +190,33 @@ loop() {
 
 assign() {
 	Call identifier().
-	switch // TODO - Make If/Else
-		current ':=': Consume sassyColon token. Call expression(). Return.
-		default: "Error (line): Expected sassyColon statement, found <token>." Exit.
+	if (current :=) {
+		Consume sassyColon token.
+		Call expression().
+		Return.
+	} else {
+		"Error (line): Expected sassyColon statement, found <token>." Exit.
+	}
 }
 
 label() {
-	switch // TODO - Make If/Else
-		current label: Consume label token. Call identifier(). Return.
-		default: "Error (line): Expected label statement, found <token>." Exit.
+	if (current label) {
+		Consume label token.
+		Call identifier().
+		Return.
+	} else {
+		"Error (line): Expected label statement, found <token>." Exit.
+	}
 }
 
 goto() {
-	switch // TODO - Make If/Else
-		current goto: Consume goto token. Call identifier(). Return.
-		default: "Error (line): Expected goto statement, found <token>." Exit.
+	if (current goto) {
+		Consume goto token.
+		Call identifier().
+		Return.
+	} else {
+		"Error (line): Expected goto statement, found <token>." Exit.
+	}
 }
 
 relational() {

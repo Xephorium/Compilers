@@ -30,7 +30,7 @@ public class Filter {
     public Filter(java.util.Scanner inputScanner) {
         this.inputScanner = inputScanner;
         this.inputScanner.useDelimiter("");
-        this.line = 0;
+        this.line = 1;
         this.readingComment = false;
         this.readingWindowsNewline = false;
 

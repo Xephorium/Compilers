@@ -72,6 +72,7 @@ public class TestParser {
         /*--- Create Parser ---*/
 
         Parser parser = new Parser(inputScanner);
+        parser.parse();
 
     }
 
