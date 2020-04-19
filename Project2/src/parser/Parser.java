@@ -63,7 +63,7 @@ public class Parser {
         if (currentToken.getType() == Type.Declare) {
             consumeToken();
         } else {
-            // No More Variables - Do Nothing
+            // No More Variables - Return null
             return null;
         }
 
@@ -78,79 +78,95 @@ public class Parser {
         return node;
     }
 
-    private void expression() {
-        n();
+    private Node expression(int previousDepth) {
+        ExpressionNode node = new ExpressionNode(previousDepth + 1);
+        node.setLeftExpression(n(node.getDepth()));
 
         if (currentToken.getType() == Type.Subtraction) {
+            node.setToken(currentToken);
             consumeToken();
-            expression();
-            return;
+            node.setRightExpression(expression(node.getDepth()));
+            return node;
         } else {
-            // Standalone n - Do Nothing
-            return;
+            // Standalone n - Return Left Child
+            return node.getLeftExpression();
         }
     }
 
-    private void n() {
-        a();
+    private Node n(int previousDepth) {
+        ExpressionNode node = new ExpressionNode(previousDepth + 1);
+        node.setLeftExpression(a(node.getDepth()));
 
         if (currentToken.getType() == Type.Division) {
+            node.setToken(currentToken);
             consumeToken();
-            n();
-            return;
+            node.setRightExpression(n(node.getDepth()));
+            return node;
         } else if (currentToken.getType() == Type.Multiplication) {
+            node.setToken(currentToken);
             consumeToken();
-            n();
-            return;
+            node.setRightExpression(n(node.getDepth()));
+            return node;
         } else {
-            // Standalone a - Do Nothing
-            return;
+            // Standalone a - Return Left Child
+            Node newNode = node.getLeftExpression();
+            newNode.setDepth(previousDepth);
+            return newNode;
         }
     }
 
-    private void a() {
-        m();
+    private Node a(int previousDepth) {
+        ExpressionNode node = new ExpressionNode(previousDepth + 1);
+        node.setLeftExpression(m(node.getDepth()));
 
         if (currentToken.getType() == Type.Addition) {
+            node.setToken(currentToken);
             consumeToken();
-            a();
-            return;
+            node.setRightExpression(a(node.getDepth()));
+            return node;
         } else {
-            // Standalone m - Do Nothing
-            return;
+            // Standalone m - Return Left Node
+            Node newNode = node.getLeftExpression();
+            newNode.setDepth(previousDepth);
+            return newNode;
         }
     }
 
-    private void m() {
+    private Node m(int previousDepth) {
+        ExpressionNode node = new ExpressionNode(previousDepth + 1);
         if (currentToken.getType() == Type.Multiplication) {
+            node.setToken(currentToken);
             consumeToken();
-            m();
-            return;
+            node.setRightExpression(m(node.getDepth()));
+            return node;
         } else {
-            r();
-            return;
+            return r(previousDepth);
         }
     }
 
-    private void r() {
+    private Node r(int previousDepth) {
+        ExpressionNode node = new ExpressionNode(previousDepth + 1);
         if (currentToken.getType() == Type.OpenParen) {
             consumeToken();
-            expression();
+            Node groupedNode = expression(node.getDepth());
             checkForToken(Type.CloseParen);
-            return;
+            return groupedNode;
 
         } else if (currentToken.getType() == Type.Identifier) {
+            node.setToken(currentToken);
             consumeToken();
-            return;
+            return node;
 
         } else if (currentToken.getType() == Type.Number) {
+            node.setToken(currentToken);
             consumeToken();
-            return;
+            return node;
 
         } else {
             error(Type.OpenParen.toString() + " or "
                     + Type.Identifier.toString() + " or "
                     + Type.Number);
+            return null; // Unreachable
         }
     }
 
@@ -177,7 +193,7 @@ public class Parser {
             return node;
 
         } else {
-            // Empty - Do Nothing
+            // Empty - Return null
             return null;
         }
     }
@@ -237,8 +253,7 @@ public class Parser {
     private Node out(int previousDepth) {
         OutNode node = new OutNode(previousDepth + 1);
         checkForToken(Type.Out);
-        //node.seExpression(expression());
-        expression();
+        node.seExpression(expression(node.getDepth()));
         return node;
     }
 
@@ -246,11 +261,9 @@ public class Parser {
         IfNode node = new IfNode(previousDepth + 1);
         checkForToken(Type.Iffy);
         checkForToken(Type.OpenBracket);
-        //node.setExpressionOne(expression(node.getDepth()));
-        expression();
+        node.setExpressionOne(expression(node.getDepth()));
         node.setRelational(relational(node.getDepth()));
-        //node.setExpressionTwo(expression(node.getDepth()));
-        expression();
+        node.setExpressionTwo(expression(node.getDepth()));
         checkForToken(Type.CloseBracket);
         checkForToken(Type.Then);
         node.setStatement(statement(node.getDepth()));
@@ -261,11 +274,9 @@ public class Parser {
         LoopNode node = new LoopNode(previousDepth + 1);
         checkForToken(Type.Loop);
         checkForToken(Type.OpenBracket);
-        //node.setExpressionOne(expression(node.getDepth()));
-        expression();
+        node.setExpressionOne(expression(node.getDepth()));
         node.setRelational(relational(node.getDepth()));
-        //node.setExpressionTwo(expression(node.getDepth()));
-        expression();
+        node.setExpressionTwo(expression(node.getDepth()));
         checkForToken(Type.CloseBracket);
         node.setStatement(statement(node.getDepth()));
         return node;
@@ -275,8 +286,7 @@ public class Parser {
         AssignNode node = new AssignNode(previousDepth + 1);
         node.setVariableName(checkForToken(Type.Identifier));
         checkForToken(Type.SassyColon);
-        //node.setExpression(expression());
-        expression();
+        node.setExpression(expression(node.getDepth()));
         return node;
     }
 
@@ -312,7 +322,7 @@ public class Parser {
                 return node;
 
             } else {
-                // Standalone < - Do Nothing.
+                // Standalone < - Return Node
                 return node;
             }
 
@@ -326,7 +336,7 @@ public class Parser {
                 return node;
 
             } else {
-                // Standalone > - Do Nothing
+                // Standalone > - Return Node
                 return node;
             }
 

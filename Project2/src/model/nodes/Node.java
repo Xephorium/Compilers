@@ -52,6 +52,10 @@ public class Node {
         return type;
     }
 
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
     public int getDepth() {
         return depth;
     }
@@ -113,6 +117,7 @@ public class Node {
     public enum NodeType {
         Program,
         Variable,
+        Expression,
         Block,
         Statement,
         In,
