@@ -113,6 +113,7 @@ public class Node {
     public enum NodeType {
         Program,
         Variable,
-        Block
+        Block,
+        Statement
     }
 }

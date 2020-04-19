@@ -53,8 +53,7 @@ public class Parser {
         BlockNode node = new BlockNode(previousDepth + 1);
         checkForToken(Type.OpenBrace);
         node.setVariableNode(variables(node.getDepth()));
-        //node.setStatementNode(statements(node.getDepth()));
-        statements();
+        node.setStatementNode(statements(node.getDepth()));
         checkForToken(Type.CloseBrace);
         return node;
     }
@@ -155,13 +154,16 @@ public class Parser {
         }
     }
 
-    private void statements() {
+    private Node statements(int previousDepth) {
+        StatementNode node = new StatementNode(previousDepth + 1);
+        //node.setStatementNode(statement(node.getDepth()));
         statement();
-        mStatement();
-        return;
+        node.setOtherStatementNode(mStatement(node.getDepth()));
+        return node;
     }
 
-    private void mStatement() {
+    private Node mStatement(int previousDepth) {
+        StatementNode node = new StatementNode(previousDepth + 1);
         if (currentToken.getType() == Type.In
                 || currentToken.getType() == Type.Out
                 || currentToken.getType() == Type.OpenBrace
@@ -171,13 +173,14 @@ public class Parser {
                 || currentToken.getType() == Type.Goto
                 || currentToken.getType() == Type.Label
                 ) {
+            //node.setStatementNode(statement(node.getDepth()));
             statement();
-            mStatement();
-            return;
+            node.setOtherStatementNode(mStatement(node.getDepth()));
+            return node;
 
         } else {
             // Empty - Do Nothing
-            return;
+            return null;
         }
     }
 
