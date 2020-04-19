@@ -117,6 +117,8 @@ public class Node {
         Statement,
         In,
         Out,
+        If,
+        Loop,
         Assign,
         Label,
         GoTo

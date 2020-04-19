@@ -197,14 +197,14 @@ public class Parser {
             return block(previousDepth);
 
         } else if (currentToken.getType() == Type.Iffy) {
-            ifMethod();
+            Node node = ifMethod(previousDepth);
             checkForToken(Type.Semicolon);
-            return;
+            return node;
 
         } else if (currentToken.getType() == Type.Loop) {
-            loopMethod();
+            Node node = loopMethod(previousDepth);
             checkForToken(Type.Semicolon);
-            return;
+            return node;
 
         } else if (currentToken.getType() == Type.Identifier) {
             Node node = assign(previousDepth);
@@ -242,27 +242,35 @@ public class Parser {
         return node;
     }
 
-    private void ifMethod() {
+    private Node ifMethod(int previousDepth) {
+        IfNode node = new IfNode(previousDepth + 1);
         checkForToken(Type.Iffy);
         checkForToken(Type.OpenBracket);
+        //node.setExpressionOne(expression(node.getDepth()));
         expression();
+        //node.setRelational(relational(node.getDepth()));
         relational();
+        //node.setExpressionTwo(expression(node.getDepth()));
         expression();
         checkForToken(Type.CloseBracket);
         checkForToken(Type.Then);
-        statement(0);
-        return;
+        node.setStatement(statement(node.getDepth()));
+        return node;
     }
 
-    private void loopMethod() {
+    private Node loopMethod(int previousDepth) {
+        LoopNode node = new LoopNode(previousDepth + 1);
         checkForToken(Type.Loop);
         checkForToken(Type.OpenBracket);
+        //node.setExpressionOne(expression(node.getDepth()));
         expression();
+        //node.setRelational(relational(node.getDepth()));
         relational();
+        //node.setExpressionTwo(expression(node.getDepth()));
         expression();
         checkForToken(Type.CloseBracket);
-        statement(0);
-        return;
+        node.setStatement(statement(node.getDepth()));
+        return node;
     }
 
     private Node assign(int previousDepth) {

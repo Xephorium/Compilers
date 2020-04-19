@@ -43,6 +43,14 @@ The BNF (Our Grammar)
 <relational> -> < | << (two tokens >) | > | >> (two tokens) | == (one token ==) | <> (two tokens)
 
 
+Statement Node
+- Child (Specific Statement Node [in, out, block, if, loop, assign, etc])
+- Child (Another Statement Node)
+
+Assign Node
+- Token (variable)
+- Child (expression)
+
 
 /*--- Recursive Descent Pseudocode ---*/
 
@@ -264,13 +272,31 @@ relational() {
 
 /*--- Node Structure ---*/
 
-Vars Node
-- variable name
-- initial value
+Semantic Tokens vs Structural Tokens
+- Semantic is meaningful, needs to be stored.
+- Structure can be disregarded.
+
+Program Node
+- child (list of variable nodes)
+- child (block node)
+
+Variable Node
+- variable name (token)
+- initial value (token)
 - child reference (can point to another var or null)
 - Doesn't need declare, :=, or ssemicolon!
 
 Block Node
-- child (list of variables in block)
-- child (list of statements in block)
+- child (points to variable in block, which might point to another)
+- child (points to statement in block, which might point to another)
 - Doesn't need curly braces!
+
+Label Node
+- Label name (token)
+
+GoTo Node
+- goto name (token)
+
+Suggestion: Same Node Class for all nodes.
+- Contains type that specifies behavior.
+- I reject this advice. Gonna do super class and sub classes.
