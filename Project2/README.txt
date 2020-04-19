@@ -1,15 +1,7 @@
-Method Used: #3 - FSA Table & Driver. Details below.
 
 /////////////////////////
-// Compilers Project 1 //
+// Compilers Project 2 //
 /////////////////////////
-
-
-Architecture:
-    - This program implements option #3 of the assignment prompt, using an FSA table
-      and driver to recognize valid tokens.
-    - FSA Table Location: FsaTable.java
-    - Driver Method: getNextToken() method of Scanner.java
 
 
 Execution Scripts:
@@ -19,14 +11,14 @@ Execution Scripts:
         > Run script handles parameters as if passed directly to program.
 
             Windows Examples:
-                run test\input
-                run test\input.sp2020
-                run < test\input.sp2020
+                run test\valid
+                run test\valid.sp2020
+                run < test\valid.sp2020
 
             Linux Examples:
-                ./run.sh test/input
-                ./run.sh test/input.sp2020
-                ./run.sh < test/input.sp2020
+                ./run.sh test/valid
+                ./run.sh test/valid.sp2020
+                ./run.sh < test/valid.sp2020
 
 
 Build Notes:

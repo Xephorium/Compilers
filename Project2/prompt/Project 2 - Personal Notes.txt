@@ -42,6 +42,17 @@ The BNF (Our Grammar)
 <goto>       -> goto Identifier
 <relational> -> < | << (two tokens >) | > | >> (two tokens) | == (one token ==) | <> (two tokens)
 
+Expression Node
+- Holds single token and has two children
+- Token is operator or value 
+- Left and right children are 
+
+- Token (Left Token)
+- Token (Operation)
+- Token (Right Token)
+- Child (Left Expression)
+- Child (Right Expression)
+- Note: Left and right side can be either a token or child expression.
 
 Statement Node
 - Child (Specific Statement Node [in, out, block, if, loop, assign, etc])
