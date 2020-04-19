@@ -156,8 +156,7 @@ public class Parser {
 
     private Node statements(int previousDepth) {
         StatementNode node = new StatementNode(previousDepth + 1);
-        //node.setStatementNode(statement(node.getDepth()));
-        statement();
+        node.setStatementNode(statement(node.getDepth()));
         node.setOtherStatementNode(mStatement(node.getDepth()));
         return node;
     }
@@ -173,8 +172,7 @@ public class Parser {
                 || currentToken.getType() == Type.Goto
                 || currentToken.getType() == Type.Label
                 ) {
-            //node.setStatementNode(statement(node.getDepth()));
-            statement();
+            node.setStatementNode(statement(node.getDepth()));
             node.setOtherStatementNode(mStatement(node.getDepth()));
             return node;
 
@@ -184,21 +182,19 @@ public class Parser {
         }
     }
 
-    private void statement() {
+    private Node statement(int previousDepth) {
         if (currentToken.getType() == Type.In) {
-            in();
+            Node node = in(previousDepth);
             checkForToken(Type.Semicolon);
-            return;
+            return node;
 
         } else if (currentToken.getType() == Type.Out) {
-            out();
+            Node node = out(previousDepth);
             checkForToken(Type.Semicolon);
-            return;
+            return node;
 
         } else if (currentToken.getType() == Type.OpenBrace) {
-            block(0);
-            //block(previousDepth);
-            return;
+            return block(previousDepth);
 
         } else if (currentToken.getType() == Type.Iffy) {
             ifMethod();
@@ -211,35 +207,39 @@ public class Parser {
             return;
 
         } else if (currentToken.getType() == Type.Identifier) {
-            assign();
+            Node node = assign(previousDepth);
             checkForToken(Type.Semicolon);
-            return;
+            return node;
 
         } else if (currentToken.getType() == Type.Goto) {
-            gotoMethod();
+            Node node = gotoMethod(previousDepth);
             checkForToken(Type.Semicolon);
-            return;
+            return node;
 
         } else if (currentToken.getType() == Type.Label) {
-            label();
+            Node node = label(previousDepth);
             checkForToken(Type.Semicolon);
-            return;
+            return node;
 
         } else {
             error("statement or block");
+            return null; // Unreachable
         }
     }
 
-    private void in() {
+    private Node in(int previousDepth) {
+        InNode node = new InNode(previousDepth + 1);
         checkForToken(Type.In);
-        checkForToken(Type.Identifier);
-        return;
+        node.setName(checkForToken(Type.Identifier));
+        return node;
     }
 
-    private void out() {
+    private Node out(int previousDepth) {
+        OutNode node = new OutNode(previousDepth + 1);
         checkForToken(Type.Out);
+        //node.seExpression(expression());
         expression();
-        return;
+        return node;
     }
 
     private void ifMethod() {
@@ -250,7 +250,7 @@ public class Parser {
         expression();
         checkForToken(Type.CloseBracket);
         checkForToken(Type.Then);
-        statement();
+        statement(0);
         return;
     }
 
@@ -261,27 +261,31 @@ public class Parser {
         relational();
         expression();
         checkForToken(Type.CloseBracket);
-        statement();
+        statement(0);
         return;
     }
 
-    private void assign() {
-        checkForToken(Type.Identifier);
+    private Node assign(int previousDepth) {
+        AssignNode node = new AssignNode(previousDepth + 1);
+        node.setVariableName(checkForToken(Type.Identifier));
         checkForToken(Type.SassyColon);
+        //node.setExpression(expression());
         expression();
-        return;
+        return node;
     }
 
-    private void gotoMethod() {
+    private Node gotoMethod(int previousDepth) {
+        GoToNode node = new GoToNode(previousDepth + 1);
         checkForToken(Type.Goto);
-        checkForToken(Type.Identifier);
-        return;
+        node.setName(checkForToken(Type.Identifier));
+        return node;
     }
 
-    private void label() {
+    private Node label(int previousDepth) {
+        LabelNode node = new LabelNode(previousDepth + 1);
         checkForToken(Type.Label);
-        checkForToken(Type.Identifier);
-        return;
+        node.setName(checkForToken(Type.Identifier));
+        return node;
     }
 
     private void relational() {

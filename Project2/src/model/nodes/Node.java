@@ -114,6 +114,11 @@ public class Node {
         Program,
         Variable,
         Block,
-        Statement
+        Statement,
+        In,
+        Out,
+        Assign,
+        Label,
+        GoTo
     }
 }

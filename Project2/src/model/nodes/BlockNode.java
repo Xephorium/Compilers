@@ -25,8 +25,8 @@ public class BlockNode extends Node {
         this.setChild(1, node);
     }
 
-    public BlockNode getStatementNode() {
-        return (BlockNode) this.getChildren().get(1);
+    public StatementNode getStatementNode() {
+        return (StatementNode) this.getChildren().get(1);
     }
 
     @Override

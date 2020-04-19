@@ -1,6 +1,5 @@
 package model.nodes;
 
-import model.Token;
 
 public class StatementNode extends Node {
 
@@ -18,16 +17,16 @@ public class StatementNode extends Node {
         this.setChild(0, node);
     }
 
-    public Token getStatementNode() {
-        return this.getToken(0);
+    public Node getStatementNode() {
+        return this.getChild(0);
     }
 
     public void setOtherStatementNode(Node node) {
         this.setChild(1, node);
     }
 
-    public Token getOtherStatementNode() {
-        return this.getToken(1);
+    public Node getOtherStatementNode() {
+        return this.getChild(1);
     }
 
 
