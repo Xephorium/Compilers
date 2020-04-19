@@ -88,8 +88,8 @@ public class Parser {
             node.setRightExpression(expression(node.getDepth()));
             return node;
         } else {
-            // Standalone n - Return Left Child
-            return node.getLeftExpression();
+            // Standalone n - Return Node
+            return node;
         }
     }
 
@@ -108,10 +108,8 @@ public class Parser {
             node.setRightExpression(n(node.getDepth()));
             return node;
         } else {
-            // Standalone a - Return Left Child
-            Node newNode = node.getLeftExpression();
-            newNode.setDepth(previousDepth);
-            return newNode;
+            // Standalone a - Return Node
+            return node;
         }
     }
 
@@ -125,10 +123,8 @@ public class Parser {
             node.setRightExpression(a(node.getDepth()));
             return node;
         } else {
-            // Standalone m - Return Left Node
-            Node newNode = node.getLeftExpression();
-            newNode.setDepth(previousDepth);
-            return newNode;
+            // Standalone m - Return Node
+            return node;
         }
     }
 
@@ -140,7 +136,8 @@ public class Parser {
             node.setRightExpression(m(node.getDepth()));
             return node;
         } else {
-            return r(previousDepth);
+            node.setLeftExpression(r(previousDepth + 1));
+            return node;
         }
     }
 

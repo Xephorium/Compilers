@@ -47,6 +47,10 @@ public class ExpressionNode extends Node {
 
     @Override
     public String toString() {
-        return generateIndent() + getType().toString() + ": " + getToken().getInstance();
+        String output = generateIndent() + getType().toString();
+        if (getToken() != null) {
+            output += ": " + getToken().getInstance();
+        }
+        return output;
     }
 }
