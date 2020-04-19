@@ -107,9 +107,7 @@ public class Node {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(generateIndent() + type.toString() + ": ");
-        builder.append("Base Node.");
-        return builder.toString();
+        return generateIndent() + type.toString() + ": " + "Base Node.";
     }
 
     public String generateIndent() {

@@ -12,4 +12,4 @@ echo Project compiled.
 echo Running project.
 
 :: Run Project (Binaries Read from "build" Directory)
-java -cp build TestParser %*
+java -cp build TestTree %*
