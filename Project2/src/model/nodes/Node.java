@@ -121,6 +121,7 @@ public class Node {
         Loop,
         Assign,
         Label,
-        GoTo
+        GoTo,
+        Relational
     }
 }

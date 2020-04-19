@@ -248,8 +248,7 @@ public class Parser {
         checkForToken(Type.OpenBracket);
         //node.setExpressionOne(expression(node.getDepth()));
         expression();
-        //node.setRelational(relational(node.getDepth()));
-        relational();
+        node.setRelational(relational(node.getDepth()));
         //node.setExpressionTwo(expression(node.getDepth()));
         expression();
         checkForToken(Type.CloseBracket);
@@ -264,8 +263,7 @@ public class Parser {
         checkForToken(Type.OpenBracket);
         //node.setExpressionOne(expression(node.getDepth()));
         expression();
-        //node.setRelational(relational(node.getDepth()));
-        relational();
+        node.setRelational(relational(node.getDepth()));
         //node.setExpressionTwo(expression(node.getDepth()));
         expression();
         checkForToken(Type.CloseBracket);
@@ -296,41 +294,50 @@ public class Parser {
         return node;
     }
 
-    private void relational() {
+    private Node relational(int previousDepth) {
+        RelationalNode node = new RelationalNode(previousDepth + 1);
+
         if (currentToken.getType() == Type.LessThan) {
+            node.setFirstToken(currentToken);
             consumeToken();
 
             if (currentToken.getType() == Type.LessThan) {
+                node.setSecondToken(currentToken);
                 consumeToken();
-                return;
+                return node;
 
             } else if (currentToken.getType() == Type.GreaterThan) {
+                node.setSecondToken(currentToken);
                 consumeToken();
-                return;
+                return node;
 
             } else {
                 // Standalone < - Do Nothing.
-                return;
+                return node;
             }
 
         } else if (currentToken.getType() == Type.GreaterThan) {
+            node.setFirstToken(currentToken);
             consumeToken();
 
             if (currentToken.getType() == Type.GreaterThan) {
+                node.setSecondToken(currentToken);
                 consumeToken();
-                return;
+                return node;
 
             } else {
                 // Standalone > - Do Nothing
-                return;
+                return node;
             }
 
         } else if (currentToken.getType() == Type.Equality) {
+            node.setFirstToken(currentToken);
             consumeToken();
-            return;
+            return node;
 
         } else {
             error("relational operator");
+            return null; // Unreachable
         }
     }
 

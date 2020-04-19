@@ -38,6 +38,4 @@ public class AssignNode extends Node {
                 + ": " + "variable name = "
                 + getVariableName().getInstance();
     }
-
-
 }
