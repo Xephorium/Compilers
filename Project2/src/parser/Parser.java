@@ -50,7 +50,7 @@ public class Parser {
     private void block() {
         checkForToken(Type.OpenBrace);
         variables();
-        //statements();
+        statements();
         checkForToken(Type.CloseBrace);
         return;
     }
@@ -144,6 +144,169 @@ public class Parser {
             error(Type.OpenParen.toString() + " or "
                     + Type.Identifier.toString() + " or "
                     + Type.Number);
+        }
+    }
+
+    private void statements() {
+        statement();
+        mStatement();
+        return;
+    }
+
+    private void mStatement() {
+        if (currentToken.getType() == Type.In
+                || currentToken.getType() == Type.Out
+                || currentToken.getType() == Type.OpenBrace
+                || currentToken.getType() == Type.Iffy
+                || currentToken.getType() == Type.Loop
+                || currentToken.getType() == Type.Assign
+                || currentToken.getType() == Type.Goto
+                || currentToken.getType() == Type.Label
+                ) {
+            statement();
+            mStatement();
+            return;
+
+        } else {
+            // Empty - Do Nothing
+            return;
+        }
+    }
+
+    private void statement() {
+        if (currentToken.getType() == Type.In) {
+            in();
+            checkForToken(Type.Semicolon);
+            return;
+
+        } else if (currentToken.getType() == Type.Out) {
+            out();
+            checkForToken(Type.Semicolon);
+            return;
+
+        } else if (currentToken.getType() == Type.OpenBrace) {
+            block();
+            return;
+
+        } else if (currentToken.getType() == Type.Iffy) {
+            ifMethod();
+            checkForToken(Type.Semicolon);
+            return;
+
+        } else if (currentToken.getType() == Type.Loop) {
+            loopMethod();
+            checkForToken(Type.Semicolon);
+            return;
+
+        } else if (currentToken.getType() == Type.Identifier) {
+            assign();
+            checkForToken(Type.Semicolon);
+            return;
+
+        } else if (currentToken.getType() == Type.Goto) {
+            gotoMethod();
+            checkForToken(Type.Semicolon);
+            return;
+
+        } else if (currentToken.getType() == Type.Label) {
+            label();
+            checkForToken(Type.Semicolon);
+            return;
+
+        } else {
+            error("statement or block");
+        }
+    }
+
+    private void in() {
+        checkForToken(Type.In);
+        checkForToken(Type.Identifier);
+        return;
+    }
+
+    private void out() {
+        checkForToken(Type.Out);
+        expression();
+        return;
+    }
+
+    private void ifMethod() {
+        checkForToken(Type.Iffy);
+        checkForToken(Type.OpenBracket);
+        expression();
+        relational();
+        expression();
+        checkForToken(Type.CloseBracket);
+        checkForToken(Type.Then);
+        statement();
+        return;
+    }
+
+    private void loopMethod() {
+        checkForToken(Type.Loop);
+        checkForToken(Type.OpenBracket);
+        expression();
+        relational();
+        expression();
+        checkForToken(Type.CloseBracket);
+        statement();
+        return;
+    }
+
+    private void assign() {
+        checkForToken(Type.Identifier);
+        checkForToken(Type.SassyColon);
+        expression();
+        return;
+    }
+
+    private void gotoMethod() {
+        checkForToken(Type.Goto);
+        checkForToken(Type.Identifier);
+        return;
+    }
+
+    private void label() {
+        checkForToken(Type.Label);
+        checkForToken(Type.Identifier);
+        return;
+    }
+
+    private void relational() {
+        if (currentToken.getType() == Type.LessThan) {
+            consumeToken();
+
+            if (currentToken.getType() == Type.LessThan) {
+                consumeToken();
+                return;
+
+            } else if (currentToken.getType() == Type.GreaterThan) {
+                consumeToken();
+                return;
+
+            } else {
+                // Standalone < - Do Nothing.
+                return;
+            }
+
+        } else if (currentToken.getType() == Type.GreaterThan) {
+            consumeToken();
+
+            if (currentToken.getType() == Type.GreaterThan) {
+                consumeToken();
+                return;
+
+            } else {
+                // Standalone > - Do Nothing
+                return;
+            }
+
+        } else if (currentToken.getType() == Type.Equality) {
+            consumeToken();
+            return;
+
+        } else {
+            error("relational operator");
         }
     }
 
