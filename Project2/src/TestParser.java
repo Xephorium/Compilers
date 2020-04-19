@@ -72,7 +72,8 @@ public class TestParser {
         /*--- Create Parser ---*/
 
         Parser parser = new Parser(inputScanner);
-        parser.parse();
+        TestTree testTree = new TestTree(parser.parse());
+        testTree.printTree();
 
     }
 

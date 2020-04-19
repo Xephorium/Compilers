@@ -2,6 +2,7 @@ package parser;
 
 import model.Token;
 import model.Token.Type;
+import model.nodes.*;
 import scanner.Scanner;
 
 /* Chris Cruzen
@@ -34,41 +35,48 @@ public class Parser {
 
     /*--- Public Methods ---*/
 
-    public void parse() {
-        program();
+    public Node parse() {
+        return program();
     }
 
 
     /*--- Private Recursive Descent Methods ---*/
 
-    private void program() {
-        variables();
-        block();
-        return;
+    private Node program() {
+        ProgramNode node = new ProgramNode(0);
+        node.setVariableNode(variables(node.getDepth()));
+        node.setBlockNode(block(node.getDepth()));
+        return node;
     }
 
-    private void block() {
+    private Node block(int previousDepth) {
+        BlockNode node = new BlockNode(previousDepth + 1);
         checkForToken(Type.OpenBrace);
-        variables();
+        node.setVariableNode(variables(node.getDepth()));
+        //node.setStatementNode(statements(node.getDepth()));
         statements();
         checkForToken(Type.CloseBrace);
-        return;
+        return node;
     }
 
-    private void variables() {
+    private Node variables(int previousDepth) {
+        VariableNode node = new VariableNode(previousDepth + 1);
         if (currentToken.getType() == Type.Declare) {
             consumeToken();
         } else {
             // No More Variables - Do Nothing
-            return;
+            return null;
         }
 
-        checkForToken(Type.Identifier);
+        // Add all tokens
+        node.setVariableName(checkForToken(Type.Identifier));
         checkForToken(Type.SassyColon);
-        checkForToken(Type.Number);
+        node.setInitialValue(checkForToken(Type.Number));
         checkForToken(Type.Semicolon);
-        variables();
-        return;
+
+        node.setVariableNode(variables(node.getDepth()));
+
+        return node;
     }
 
     private void expression() {
@@ -185,7 +193,8 @@ public class Parser {
             return;
 
         } else if (currentToken.getType() == Type.OpenBrace) {
-            block();
+            block(0);
+            //block(previousDepth);
             return;
 
         } else if (currentToken.getType() == Type.Iffy) {
@@ -325,7 +334,6 @@ public class Parser {
     }
 
     private void consumeToken() {
-        System.out.println("Token consumed: " + currentToken.getInstance() + " (" + currentToken.getType() + ").");
         currentToken = scanner.getNextToken();
     }
 

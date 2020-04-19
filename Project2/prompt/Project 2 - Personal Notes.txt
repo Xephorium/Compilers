@@ -46,7 +46,6 @@ The BNF (Our Grammar)
 
 /*--- Recursive Descent Pseudocode ---*/
 
-
 program() {
 	Call variables().
 	Call block().
@@ -103,6 +102,18 @@ variables() {
 	}
 
 	Call variables().
+}
+
+expression() {
+	Call n();
+
+	if (current -) {
+		consumeToken;
+		expression();
+		return;
+	} else {
+		return;
+	}
 }
 
 ...
@@ -248,3 +259,18 @@ relational() {
 		"Error (line): Expected relational operator, found <token>." Exit.
 	}
 }
+
+
+
+/*--- Node Structure ---*/
+
+Vars Node
+- variable name
+- initial value
+- child reference (can point to another var or null)
+- Doesn't need declare, :=, or ssemicolon!
+
+Block Node
+- child (list of variables in block)
+- child (list of statements in block)
+- Doesn't need curly braces!

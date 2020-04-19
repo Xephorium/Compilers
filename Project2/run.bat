@@ -5,7 +5,7 @@
 call clean.bat
 
 :: Compile Project (Targets Sent to "build" Directory)
-javac -d build src\TestParser.java src\model\* src\scanner\* src\parser\*
+javac -d build src\*.java src\model\*.java src\model\nodes\*.java src\scanner\*.java src\parser\*.java
 
 :: Print Update
 echo Project compiled.
