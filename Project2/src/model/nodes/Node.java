@@ -96,6 +96,15 @@ public class Node {
         return output;
     }
 
+    public void recursivelyReduceDepth() {
+        this.setDepth(this.depth - 1);
+        for (int x = 0; x < MAX_CHILDREN; x++) {
+            if (getChild(x) != null) {
+                getChild(x).recursivelyReduceDepth();
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(generateIndent() + type.toString() + ": ");

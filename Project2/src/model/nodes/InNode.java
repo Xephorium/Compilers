@@ -24,6 +24,6 @@ public class InNode extends Node {
 
     @Override
     public String toString() {
-        return generateIndent() + getType().toString() + ": " + "name = " + getNameName().getInstance();
+        return generateIndent() + getType().toString() + ": " + getNameName().getInstance();
     }
 }

@@ -88,8 +88,9 @@ public class Parser {
             node.setRightExpression(expression(node.getDepth()));
             return node;
         } else {
-            // Standalone n - Return Node
-            return node;
+            // Standalone n - Return Left Node
+            node.recursivelyReduceDepth();
+            return node.getLeftExpression();
         }
     }
 
@@ -108,8 +109,9 @@ public class Parser {
             node.setRightExpression(n(node.getDepth()));
             return node;
         } else {
-            // Standalone a - Return Node
-            return node;
+            // Standalone a - Return Left Node
+            node.recursivelyReduceDepth();
+            return node.getLeftExpression();
         }
     }
 
@@ -123,8 +125,9 @@ public class Parser {
             node.setRightExpression(a(node.getDepth()));
             return node;
         } else {
-            // Standalone m - Return Node
-            return node;
+            // Standalone m - Return Left Node
+            node.recursivelyReduceDepth();
+            return node.getLeftExpression();
         }
     }
 
@@ -136,8 +139,7 @@ public class Parser {
             node.setRightExpression(m(node.getDepth()));
             return node;
         } else {
-            node.setLeftExpression(r(previousDepth + 1));
-            return node;
+            return r(previousDepth);
         }
     }
 
@@ -147,6 +149,7 @@ public class Parser {
             consumeToken();
             Node groupedNode = expression(node.getDepth());
             checkForToken(Type.CloseParen);
+            groupedNode.recursivelyReduceDepth();
             return groupedNode;
 
         } else if (currentToken.getType() == Type.Identifier) {
