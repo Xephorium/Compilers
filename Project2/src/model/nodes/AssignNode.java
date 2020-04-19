@@ -35,7 +35,7 @@ public class AssignNode extends Node {
     public String toString() {
         return generateIndent()
                 + getType().toString()
-                + ": " + "variable name = "
+                + ": "
                 + getVariableName().getInstance();
     }
 }

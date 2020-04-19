@@ -1,5 +1,6 @@
 import model.nodes.Node;
 
+
 public class TestTree {
 
 
@@ -19,7 +20,7 @@ public class TestTree {
 
     // Prints tree as formatted string, walked: Root, Left, Right
     public void printTree() {
-        System.out.println(parseTree.traverse());
+        System.out.println("\n" + parseTree.traverse());
     }
 
 }

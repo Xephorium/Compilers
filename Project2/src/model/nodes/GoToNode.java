@@ -24,7 +24,9 @@ public class GoToNode extends Node {
 
     @Override
     public String toString() {
-        return generateIndent() + getType().toString()
-                + ": label = " + getName().getInstance();
+        return generateIndent()
+                + getType().toString()
+                + ": "
+                + getName().getInstance();
     }
 }

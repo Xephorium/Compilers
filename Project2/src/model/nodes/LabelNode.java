@@ -24,7 +24,9 @@ public class LabelNode extends Node {
 
     @Override
     public String toString() {
-        return generateIndent() + getType().toString()
-                + ": name = " + getName().getInstance();
+        return generateIndent()
+                + getType().toString()
+                + ": "
+                + getName().getInstance();
     }
 }
