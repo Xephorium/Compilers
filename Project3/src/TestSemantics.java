@@ -8,17 +8,18 @@ import java.util.Scanner;
 
 /* Chris Cruzen
  * Compilers
- * 04.18.2020
+ * 04.29.2020
  *
- * TestTree is the root class of Project2. This class takes source code
+ * TestSemantics is the root class of Project3. This class takes source code
  * either as a filename to read or as a command line input stream. It then
  * passes a stream of that input to the Parser, which validates the code's
  * grammatical correctness and builds a parse tree of tokens. Finally, this
- * class prints a preorder traversal of the generated parse tree.
+ * class passes the tree to StaticSemanticsTable which verifies correct
+ * source code variable usage.
  */
 
 
-public class TestTree {
+public class TestSemantics {
 
 
     /*----- Global Constants -----*/
@@ -79,7 +80,7 @@ public class TestTree {
 
         /*--- Print Tree Traversal ---*/
 
-        System.out.println("\n" + parseTree.traverse());
+        System.out.println("\n" + parseTree.getFormattedTree());
 
     }
 

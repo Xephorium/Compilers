@@ -85,12 +85,12 @@ public class Node {
     }
 
     // Returns tree as formatted string, walked: Root, Left, Right
-    public String traverse() {
+    public String getFormattedTree() {
         String output = "";
         output += this + "\n";
         for (int x = 0; x < MAX_CHILDREN; x++) {
             if (getChild(x) != null) {
-                output += getChild(x).traverse();
+                output += getChild(x).getFormattedTree();
             }
         }
         return output;
