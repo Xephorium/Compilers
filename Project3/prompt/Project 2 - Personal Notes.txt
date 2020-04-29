@@ -1,0 +1,313 @@
+
+
+
+/*--- Project 2 Notes ---*/
+
+General 
+- 100pts
+- Basics: We build parser and parse tree.
+- Structure
+  > Parser.java will contain parser
+    + Generates error or returns parse tree to main
+  > TestTree.java will print a preorder traversal of the tree passed to it
+- Productions chosen based on first sets. If no first set match, error. 
+
+The BNF (Our Grammar)
+- Program: starting production
+- Vars: declare token, identifier token, :=, integer, semicolon
+- RO: Relational Operators
+- Start simple! Build up one production at a time. 
+
+
+
+/*--- Grammar Rewritten ---*/
+
+<program>    -> <variables> <block>
+<block>      -> { <variables> <statements> }
+<variables>  -> empty | declare Identifier := Integer; <variables>
+<expression> -> <N> - <expression> | <N>
+<N>          -> <A> / <N> | <A> * <N> | <A>
+<A>          -> <M> + <A> | <M>
+<M>          -> * <M> | <R>
+<R>          -> ( <expression> ) | Identifier | Integer
+<statements> -> <statment> <mStatement>
+<mStatement> -> empty | <statement> <mStatement>
+<statement>  -> <in>; | <out>; | <block> | <if>; | <loop>; | <assign>; | <goto>; | <label>;
+<in>         -> in Identifier
+<out>        -> out <expression>
+<if>         -> iffy [ <expression> <relational> <expression> ] then <statement>
+<loop>       -> loop [ <expression> <relational> <expression> ] <statement>
+<assign>     -> Identifier := <expression>
+<label>      -> label Identifier
+<goto>       -> goto Identifier
+<relational> -> < | << (two tokens >) | > | >> (two tokens) | == (one token ==) | <> (two tokens)
+
+Expression Node
+- Holds single token and has two children
+- Token is operator or value 
+- Left and right children are 
+
+- Token (Left Token)
+- Token (Operation)
+- Token (Right Token)
+- Child (Left Expression)
+- Child (Right Expression)
+- Note: Left and right side can be either a token or child expression.
+
+Statement Node
+- Child (Specific Statement Node [in, out, block, if, loop, assign, etc])
+- Child (Another Statement Node)
+
+Assign Node
+- Token (variable)
+- Child (expression)
+
+
+/*--- Recursive Descent Pseudocode ---*/
+
+program() {
+	Call variables().
+	Call block().
+	Return.
+}
+
+block() {
+	if (current {) {
+		Consume { token.
+		Call variables().
+		Call statements().
+	} else {
+		"Error (line): Expected { token, found <token>." Exit.
+	}
+
+	if (current }) {
+		Consume } token.
+		Return.
+	} else {
+		"Error (line): Expected } token, found <token>." Exit.
+	}
+}
+
+variables() {
+	if (current declare) {
+		Consume declare token.
+	} else {
+		// No More Variables - Do Nothing
+		Return.
+	}
+
+	if (current identifier) {
+		Consume identifier token.
+	} else {
+		"Error (line): Expected identifier token, found <token>." Exit.
+	}
+
+	if (current :=) {
+		Consume sassyColon token.
+	} else {
+		"Error (line): Expected sassyColon token, found <token>." Exit.
+	}
+
+	if (current integer) {
+		Consume integer token.
+	} else {
+		"Error (line): Expected integer token, found <token>." Exit.
+	}
+
+	if (current ;) {
+		Consume ; token.
+	} else {
+		"Error (line): Expected ; token, found <token>." Exit.
+	}
+
+	Call variables().
+}
+
+expression() {
+	Call n();
+
+	if (current -) {
+		consumeToken;
+		expression();
+		return;
+	} else {
+		return;
+	}
+}
+
+...
+
+in() {
+	if (current in) {
+		Consume in token.
+	} else {
+		"Error (line): Expected in statement, found <token>." Exit.
+	}
+
+	if (current identifier) {
+		Consume idendifier token.
+	} else {
+		"Error (line): Expected identifier token, found <token>." Exit.
+	}
+}
+
+out() {
+	if (current out) {
+		Consume out token.
+		Call expression();
+		Return.
+	} else {
+		"Error (line): Expected out statement, found <token>." Exit.
+	}
+}
+
+if() {
+	if (current iffy) {
+		Consume iffy token.
+	} else {
+		"Error (line): Expected iffy statement, found <token>." Exit.
+	}
+
+	if (current [) {
+		Consume [ token.
+		Call expression().
+		Call relational().
+		Call expression().
+	} else {
+		"Error (line): Expected [ token, found <token>." Exit.
+	}
+
+	if (current ]) {
+		Consume ] token.
+	} else {
+		"Error (line): Expected ] token, found <token>." Exit.
+	}
+
+	if (current then) {
+		Consume then.
+		Call statement().
+		Return.
+	} else {
+		"Error (line): Expected then token, found <token>." Exit.
+	}
+}
+
+loop() {
+	if (current loop) {
+		Consume loop token.
+	} else {
+		"Error (line): Expected loop statement, found <token>." Exit.
+	}
+
+	if (current [) {
+		Consume [ token.
+		Call expression().
+		Call relational().
+		Call expression().
+	} else {
+		"Error (line): Expected [ token, found <token>." Exit.
+	}
+
+	if (current ]) {
+		Consume ] token.
+	} else {
+		"Error (line): Expected ] token, found <token>." Exit.
+	}
+
+	Call statement().
+	Return.
+}
+
+assign() {
+	Call identifier().
+	if (current :=) {
+		Consume sassyColon token.
+		Call expression().
+		Return.
+	} else {
+		"Error (line): Expected sassyColon statement, found <token>." Exit.
+	}
+}
+
+label() {
+	if (current label) {
+		Consume label token.
+		Call identifier().
+		Return.
+	} else {
+		"Error (line): Expected label statement, found <token>." Exit.
+	}
+}
+
+goto() {
+	if (current goto) {
+		Consume goto token.
+		Call identifier().
+		Return.
+	} else {
+		"Error (line): Expected goto statement, found <token>." Exit.
+	}
+}
+
+relational() {
+	if (current <) {
+		Consume < token.
+		if (current <) {
+			Consume < token.
+			Return.
+		} else if (current >) {
+			Consume > token.
+			Return.
+		} else {
+			Return.
+		}
+
+	} else if (current >) {
+		Consume > token.
+		if (current >) {
+			Consume > token.
+			Return.
+		} else {
+			Return.
+
+	} else if (current ==) {
+		Consume == token.
+		Return.
+
+	} else {
+		"Error (line): Expected relational operator, found <token>." Exit.
+	}
+}
+
+
+
+/*--- Node Structure ---*/
+
+Semantic Tokens vs Structural Tokens
+- Semantic is meaningful, needs to be stored.
+- Structure can be disregarded.
+
+Program Node
+- child (list of variable nodes)
+- child (block node)
+
+Variable Node
+- variable name (token)
+- initial value (token)
+- child reference (can point to another var or null)
+- Doesn't need declare, :=, or ssemicolon!
+
+Block Node
+- child (points to variable in block, which might point to another)
+- child (points to statement in block, which might point to another)
+- Doesn't need curly braces!
+
+Label Node
+- Label name (token)
+
+GoTo Node
+- goto name (token)
+
+Suggestion: Same Node Class for all nodes.
+- Contains type that specifies behavior.
+- I reject this advice. Gonna do super class and sub classes.

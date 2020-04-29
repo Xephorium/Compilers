@@ -1,0 +1,25 @@
+#
+Test Program
+04.18.2020
+
+This is a test program used to determine whether the parser is correctly
+building a parse tree from scanned tokens.
+#
+
+declare var123 := 117;
+declare var456 := 264;
+declare var789 := 0;
+
+{
+    declare var01 := 01;
+
+    # Iffy Statements #
+    iffy [ x < 0 ] then x := 0;;       # Note: Two semicolons are correct. #
+    iffy [ y << 7 ] then { y := 4 / 5; };
+    iffy [ z > 36 ] then { in var123; };
+
+    # Loop Statements #
+    loop [ a >> b ] out ( 7 * *(5 + 9) - 3);;
+    loop [ c == d ] label bigLabel;;
+    loop [ e <> f ] { goto bigLabel; };
+}
