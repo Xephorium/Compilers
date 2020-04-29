@@ -1,7 +1,7 @@
 
 import model.nodes.Node;
 import parser.Parser;
-import semantics.StaticSemanticsTable;
+import semantics.SymbolTable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +15,7 @@ import java.util.Scanner;
  * either as a filename to read or as a command line input stream. It then
  * passes a stream of that input to the Parser, which validates the code's
  * grammatical correctness and builds a parse tree of tokens. Finally, this
- * class passes the tree to StaticSemanticsTable which verifies correct
+ * class passes the tree to SymbolTable which verifies correct
  * source code variable usage.
  */
 
@@ -81,7 +81,7 @@ public class TestSemantics {
 
         /*--- Verify Static Semantics ---*/
 
-        StaticSemanticsTable table = new StaticSemanticsTable(parseTree);
+        SymbolTable table = new SymbolTable(parseTree);
 
 
     }

@@ -2,8 +2,8 @@
 Test Program
 04.18.2020
 
-This is a test program used to determine whether the parser is correctly
-building a parse tree from scanned tokens.
+This is a test program used to determine whether symbol table
+construction is functioning properly.
 #
 
 declare var1 := 117;
@@ -11,15 +11,16 @@ declare var2 := 264;
 declare var3 := 0;
 
 {
-    declare var4 := 01;
+    declare var7 := 01;
 
     # Iffy Statements #
-    iffy [ var1 < 0 ] then var1 := 0;;       # Note: Two semicolons are correct. #
+    iffy [ var7 < 0 ] then var1 := 0;;       # Note: Two semicolons are correct. #
     iffy [ var2 << 7 ] then { var2 := 4 / 5; };
     iffy [ var3 > 36 ] then { in var3; };
 
     # Loop Statements #
     loop [ var1 >> var2 ] out ( 7 * *(5 + 9) - 3);;
     loop [ var2 == var3 ] label bigLabel;;
-    loop [ var3 <> var4 ] { goto bigLabel; };
+    loop [ var3 <> var3 ] { goto bigLabel; };
+
 }

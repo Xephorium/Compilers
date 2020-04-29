@@ -23,3 +23,9 @@ Execution Scripts:
 
 Build Notes:
     - Project build (.class) files are created in the "build" directory.
+
+
+Project Notes:
+    - Semantics checking for this project is continuous, even if errors are found. This
+      was decided for ease of testing based on the instructions given in the P3 lecture
+      rather than those in the assignment prompt.

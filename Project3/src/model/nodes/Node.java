@@ -1,7 +1,7 @@
 package model.nodes;
 
 import model.Token;
-import semantics.StaticSemanticsTable;
+import semantics.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,8 +97,8 @@ public class Node {
         return output;
     }
 
-    // Walks tree a single time to construct StaticSemanticsTable
-    public void buildSemanticsTable(StaticSemanticsTable table) {
+    // Walks tree a single time to construct SymbolTable
+    public void buildSemanticsTable(SymbolTable table) {
         if (this.type == NodeType.Variable) {
 
             // Add Variable Identifier to Table
