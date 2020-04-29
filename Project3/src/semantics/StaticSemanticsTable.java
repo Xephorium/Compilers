@@ -31,17 +31,41 @@ public class StaticSemanticsTable {
         this.table = new ArrayList<Token>();
 
         // Traverse Tree, adding Tokens
+        parseTree.buildSemanticsTable(this);
     }
 
 
 
     /*--- Private Methods ---*/
 
-    private void insert() {
-
+    public void insert(Token identifier) {
+        for (Token entry : table) {
+            if (entry.getInstance().equals(identifier.getInstance())) {
+                System.out.println("Error: Cannot redeclare identifier '"
+                        + entry.getInstance()
+                        + "' on line "
+                        + identifier.getLine()
+                        + ". Exiting.");
+                System.exit(1);
+            }
+        }
+        table.add(identifier);
     }
 
-    private void verify() {
+    public void verify(Token identifier) {
+        boolean found = false;
+        for (Token entry : table) {
+            if (entry.getInstance().equals(identifier.getInstance())) {
+                found = true;
+            }
+        }
 
+        if (!found) {
+            System.out.println("Error: identifier '"
+                    + identifier.getInstance()
+                    + "' on line "
+                    + identifier.getLine()
+                    + " not declared.");
+        }
     }
 }

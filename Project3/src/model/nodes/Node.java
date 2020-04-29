@@ -1,6 +1,7 @@
 package model.nodes;
 
 import model.Token;
+import semantics.StaticSemanticsTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +95,36 @@ public class Node {
             }
         }
         return output;
+    }
+
+    // Walks tree a single time to construct StaticSemanticsTable
+    public void buildSemanticsTable(StaticSemanticsTable table) {
+        if (this.type == NodeType.Variable) {
+
+            // Add Variable Identifier to Table
+            table.insert(((VariableNode) this).getVariableName());
+
+        } else if (this.type == NodeType.Label) {
+
+            // Add Label Identifier to Table
+            table.insert(((LabelNode) this).getName());
+
+        } else {
+
+            // Verify Identifiers Exist
+            for (Token token : this.getTokenList()) {
+                if (token != null && token.getType() == Token.Type.Identifier) {
+                    table.verify(token);
+                }
+            }
+        }
+
+        // Recurse Through Children
+        for (int x = 0; x < MAX_CHILDREN; x++) {
+            if (getChild(x) != null) {
+                getChild(x).buildSemanticsTable(table);
+            }
+        }
     }
 
     public void recursivelyReduceDepth() {

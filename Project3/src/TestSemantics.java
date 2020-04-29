@@ -1,6 +1,7 @@
 
 import model.nodes.Node;
 import parser.Parser;
+import semantics.StaticSemanticsTable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,9 +79,10 @@ public class TestSemantics {
         Node parseTree = parser.parse();
 
 
-        /*--- Print Tree Traversal ---*/
+        /*--- Verify Static Semantics ---*/
 
-        System.out.println("\n" + parseTree.getFormattedTree());
+        StaticSemanticsTable table = new StaticSemanticsTable(parseTree);
+
 
     }
 
